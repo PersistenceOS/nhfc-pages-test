@@ -1,0 +1,118 @@
+# Pages CMS config for NHFC – maintainers manage roster, matches, and event here.
+# See https://pagescms.org/docs/configuration
+
+media: assets
+
+settings:
+  content:
+    merge: true
+
+content:
+  - name: roster
+    label: Roster
+    type: file
+    path: roster.json
+    format: json
+    fields:
+      - name: entries
+        label: Fighters
+        type: object
+        list: true
+        fields:
+          - name: name
+            label: Name (Discord / display)
+            type: string
+            required: true
+          - name: role
+            label: Role
+            type: string
+            default: Contender
+            description: e.g. Champion, Veteran, Contender, Challenger
+          - name: tier
+            label: Tier
+            type: number
+            description: "1=Champion, 2=Veterans, 3=Contenders, 4=Challengers"
+          - name: record
+            label: Record (W-L-D)
+            type: string
+          - name: osrs_name
+            label: OSRS in-game name
+            type: string
+          - name: bio
+            label: Bio
+            type: text
+          - name: avatar_url
+            label: Avatar URL
+            type: string
+          - name: discord_user_id
+            label: Discord User ID
+            type: string
+          - name: discord_username
+            label: Discord username
+            type: string
+          - name: discord_avatar_hash
+            label: Discord avatar hash
+            type: string
+          - name: eliminated
+            label: Eliminated
+            type: boolean
+            default: false
+
+  - name: matches
+    label: Matches
+    type: file
+    path: matches.json
+    format: json
+    fields:
+      - name: matches
+        label: Bracket matches
+        type: object
+        list: true
+        fields:
+          - name: id
+            label: Match ID (slug)
+            type: string
+            description: e.g. q1, q2, s1, final
+          - name: round
+            label: Round label
+            type: string
+            description: e.g. Quarterfinal 1, Semifinal 1, Final
+          - name: round_order
+            label: Round order
+            type: number
+            description: "1=Quarterfinals, 2=Semifinals, 3=Final"
+          - name: fighter1
+            label: Fighter 1
+            type: string
+            description: Must match a fighter name in Roster
+          - name: fighter2
+            label: Fighter 2
+            type: string
+            description: Must match a fighter name in Roster
+          - name: winner
+            label: Winner
+            type: string
+            description: Set when match is decided; must match fighter1 or fighter2 name
+
+  - name: config
+    label: Event config
+    type: file
+    path: config.json
+    format: json
+    fields:
+      - name: event
+        label: Event
+        type: object
+        fields:
+          - name: series_number
+            label: Series number
+            type: number
+          - name: rounds
+            label: Rounds per fight
+            type: number
+          - name: round_duration_min
+            label: Round duration (minutes)
+            type: number
+          - name: championship_rounds
+            label: Championship rounds
+            type: number
