@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Match (Test) – NHFC</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ['Outfit', 'system-ui', 'sans-serif'] },
+          colors: {
+            surface: '#0f172a',
+            surfaceLight: '#1e293b',
+            accent: '#fbbf24',
+            blood: '#7f1d1d',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { font-family: 'Outfit', system-ui, sans-serif; }
+    .vs-badge {
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      color: rgba(251, 191, 36, 0.95);
+    }
+    .fighter-card { transition: transform 0.2s, box-shadow 0.2s; }
+    .fighter-card.winner {
+      border-color: rgba(251, 191, 36, 0.6);
+      box-shadow: 0 0 0 2px rgba(251, 191, 36, 0.35);
+    }
+    .fighter-card .winner-label {
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      color: rgba(251, 191, 36, 0.98);
+      margin-top: 0.5rem;
+    }
+    .fighter-card.selectable { cursor: pointer; }
+    .fighter-card .select-hint {
+      font-size: 0.65rem;
+      color: rgba(251, 191, 36, 0.7);
+      margin-top: 0.5rem;
+    }
+    .btn-next {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-top: 1.5rem;
+      padding: 0.6rem 1.25rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #0f172a;
+      background: #fbbf24;
+      border: none;
+      border-radius: 0.5rem;
+      text-decoration: none;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .btn-next:hover { background: #facc15; transform: translateY(-1px); }
+    .btn-next.secondary {
+      background: transparent;
+      color: #fbbf24;
+      border: 1px solid rgba(251, 191, 36, 0.5);
+    }
+    .btn-next.secondary:hover { background: rgba(251, 191, 36, 0.1); }
+  </style>
+</head>
+<body class="bg-surface text-slate-100 min-h-screen antialiased">
+  <header class="border-b border-blood/40 bg-surfaceLight/30">
+    <div class="max-w-4xl mx-auto px-4 py-6 flex items-center justify-between">
+      <a href="index.html" class="text-slate-400 hover:text-accent text-sm font-medium no-underline">← Event</a>
+      <span class="text-accent font-semibold">NHFC</span>
+    </div>
+  </header>
+
+  <main class="max-w-4xl mx-auto px-4 py-10">
+    <!-- Simulated test banner -->
+    <p class="text-center text-slate-500 text-sm mb-6 border border-slate-600/50 rounded-lg py-2 px-4 inline-block mx-auto">Simulated test — Under icon: OSRS name; under role: Discord name</p>
+
+    <div class="text-center">
+      <h1 class="text-xl font-semibold text-slate-300 mb-8">Quarterfinal 1</h1>
+
+      <div class="flex flex-wrap items-center justify-center gap-6 sm:gap-10">
+        <!-- Card: icon → OSRS name → role → Discord name → record -->
+        <div class="fighter-card winner rounded-xl bg-surfaceLight border border-slate-700/50 p-6 w-[13rem] flex-shrink-0">
+          <div class="w-20 h-20 rounded-lg bg-slate-600/50 flex items-center justify-center text-3xl text-slate-400 mx-auto mb-3">?</div>
+          <p class="font-semibold text-white text-lg mt-1">IronGrix</p>
+          <p class="text-slate-400 text-xs mt-0.5">Contender</p>
+          <p class="text-slate-500 text-xs mt-0.5">Grixis105</p>
+          <p class="text-accent/90 text-xs font-medium mt-1">8-2-0</p>
+          <p class="winner-label">WINNER</p>
+        </div>
+
+        <div class="vs-badge">VS</div>
+
+        <div class="fighter-card rounded-xl bg-surfaceLight border border-slate-700/50 p-6 w-[13rem] flex-shrink-0">
+          <div class="w-20 h-20 rounded-lg bg-slate-600/50 flex items-center justify-center text-3xl text-slate-400 mx-auto mb-3">?</div>
+          <p class="font-semibold text-white text-lg mt-1">PvP King 99</p>
+          <p class="text-slate-400 text-xs mt-0.5">Veteran</p>
+          <p class="text-slate-500 text-xs mt-0.5">PvPKing</p>
+          <p class="text-accent/90 text-xs font-medium mt-1">6-3-1</p>
+        </div>
+      </div>
+
+      <p class="mt-6 text-slate-400 text-sm">Winner: <span class="text-accent font-semibold">IronGrix</span></p>
+
+      <div class="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
+        <a href="match.html?id=q2" class="btn-next">Next: Quarterfinal 2</a>
+        <a href="index.html" class="btn-next secondary">Back to event</a>
+      </div>
+    </div>
+
+    <hr class="my-12 border-slate-700/50" />
+
+    <!-- Alternate state: no winner yet (selectable) -->
+    <p class="text-center text-slate-500 text-sm mb-6">Alternate state — no winner yet (click to select). Under icon: OSRS name; under role: Discord name.</p>
+    <div class="text-center">
+      <h1 class="text-xl font-semibold text-slate-300 mb-8">Quarterfinal 2</h1>
+      <div class="flex flex-wrap items-center justify-center gap-6 sm:gap-10">
+        <div class="fighter-card selectable rounded-xl bg-surfaceLight border border-slate-700/50 p-6 w-[13rem] flex-shrink-0">
+          <div class="w-20 h-20 rounded-lg bg-slate-600/50 flex items-center justify-center text-3xl text-slate-400 mx-auto mb-3">?</div>
+          <p class="text-slate-500 text-xs mt-1">Tank Two</p>
+          <p class="text-slate-400 text-xs mt-0.5">Veteran</p>
+          <h2 class="font-semibold text-white text-lg mt-0.5">Fighter Two</h2>
+          <p class="select-hint">Click to select winner</p>
+        </div>
+        <div class="vs-badge">VS</div>
+        <div class="fighter-card selectable rounded-xl bg-surfaceLight border border-slate-700/50 p-6 w-[13rem] flex-shrink-0">
+          <div class="w-20 h-20 rounded-lg bg-slate-600/50 flex items-center justify-center text-3xl text-slate-400 mx-auto mb-3">?</div>
+          <p class="font-semibold text-white text-lg mt-1">Mage Four</p>
+          <p class="text-slate-400 text-xs mt-0.5">Contender</p>
+          <p class="text-slate-500 text-xs mt-0.5">Fighter Four</p>
+          <p class="select-hint">Click to select winner</p>
+        </div>
+      </div>
+      <p class="mt-4 text-slate-500 text-sm">Click a fighter once to select winner</p>
+      <div class="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
+        <a href="match.html?id=s1" class="btn-next">Next: Semifinal 1</a>
+        <a href="index.html" class="btn-next secondary">Back to event</a>
+      </div>
+    </div>
+  </main>
+</body>
+</html>

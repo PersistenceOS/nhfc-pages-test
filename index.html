@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NHFC – No Honor Fighting Championship</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ['Outfit', 'system-ui', 'sans-serif'] },
+          colors: {
+            surface: '#0f172a',
+            surfaceLight: '#1e293b',
+            accent: '#fbbf24',
+            accentDim: '#ca8a04',
+            blood: '#7f1d1d',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { font-family: 'Outfit', system-ui, sans-serif; }
+    .hero {
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 80% 50% at 50% 0%, rgba(127, 29, 29, 0.18) 0%, transparent 55%), radial-gradient(ellipse 60% 40% at 50% 0%, rgba(251, 191, 36, 0.07) 0%, transparent 50%);
+      pointer-events: none;
+    }
+    .hero-title {
+      letter-spacing: 0.2em;
+      text-shadow: 0 0 2rem rgba(251, 191, 36, 0.2);
+    }
+    .hero-badge {
+      display: inline-block;
+      margin-top: 1rem;
+      padding: 0.35rem 0.85rem;
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: rgba(251, 191, 36, 0.95);
+      border: 1px solid rgba(251, 191, 36, 0.4);
+      border-radius: 9999px;
+    }
+    .roster-tree {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+    }
+    .roster-tree .tree-tier {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .roster-tree .tree-tier-cards {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1rem;
+    }
+    .roster-tree .tree-connector {
+      width: 2px;
+      height: 1.5rem;
+      background: linear-gradient(to bottom, rgba(127, 29, 29, 0.5), rgba(251, 191, 36, 0.5));
+      margin: 0 auto;
+      flex-shrink: 0;
+    }
+    .roster-tree .tree-tier-label {
+      width: 100%;
+      text-align: center;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: rgba(251, 191, 36, 0.9);
+      margin-bottom: 0.5rem;
+    }
+    .section-head {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    .section-head::before,
+    .section-head::after {
+      content: '';
+      flex: 1;
+      max-width: 4rem;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(251, 191, 36, 0.5));
+    }
+    .section-head::after {
+      background: linear-gradient(90deg, rgba(251, 191, 36, 0.5), transparent);
+    }
+    .section-head {
+      animation: heroReveal 0.5s ease-out 0.2s both;
+    }
+    .event-info {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      gap: 1rem 1.5rem;
+      margin-top: 1.25rem;
+      font-size: 0.8rem;
+      color: rgba(248, 250, 252, 0.7);
+    }
+    .event-info span {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+    .event-info .event-dot {
+      width: 3px;
+      height: 3px;
+      border-radius: 50%;
+      background: rgba(251, 191, 36, 0.8);
+    }
+    @keyframes heroReveal {
+      from { opacity: 0; transform: translateY(-8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes cardEnter {
+      from { opacity: 0; transform: scale(0.92); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    @keyframes cardEliminated {
+      0% { opacity: 1; transform: scale(1); filter: brightness(1); }
+      50% { transform: scale(1.02); filter: brightness(1.1); }
+      100% { opacity: 0.6; transform: scale(0.96); filter: brightness(0.6); }
+    }
+    @keyframes connectorPulse {
+      0%, 100% { opacity: 0.6; }
+      50% { opacity: 1; }
+    }
+    @keyframes badgeGlow {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(251, 191, 36, 0.2); }
+      50% { box-shadow: 0 0 12px 2px rgba(127, 29, 29, 0.25); }
+    }
+    .hero .relative { animation: heroReveal 0.6s ease-out both; }
+    .hero-badge { animation: badgeGlow 3s ease-in-out infinite; }
+    .roster-tree .tree-connector {
+      animation: connectorPulse 2.5s ease-in-out infinite;
+    }
+    .roster-card {
+      animation: cardEnter 0.45s ease-out both;
+      transform-origin: center;
+    }
+    .roster-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 24px -8px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(251, 191, 36, 0.35), 0 0 20px -4px rgba(127, 29, 29, 0.2);
+    }
+    .roster-card--eliminated {
+      animation: cardEliminated 0.55s ease-in both;
+      pointer-events: none;
+      position: relative;
+    }
+    .roster-card--eliminated::after {
+      content: 'ELIMINATED';
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      color: rgba(248, 113, 113, 0.95);
+      background: rgba(15, 23, 42, 0.85);
+      border-radius: inherit;
+      backdrop-filter: blur(2px);
+    }
+    .roster-card--eliminated .roster-name,
+    .roster-card--eliminated .roster-osrs-name,
+    .roster-card--eliminated .roster-role,
+    .roster-card--eliminated .roster-record,
+    .roster-card--eliminated .roster-bio { opacity: 0.7; }
+    .roster-bio {
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .match-card {
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .match-card:hover {
+      border-color: rgba(127, 29, 29, 0.7);
+      box-shadow: 0 0 0 1px rgba(251, 191, 36, 0.3);
+    }
+    .match-winner { color: rgba(251, 191, 36, 0.98); font-weight: 600; }
+    .roster-avatar-link:hover .roster-avatar { opacity: 0.9; }
+    .roster-avatar-link { border-radius: 0.5rem; }
+  </style>
+</head>
+<body class="bg-surface text-slate-100 min-h-screen antialiased">
+  <header class="hero border-b border-blood/50 bg-surfaceLight/30">
+    <div class="relative max-w-6xl mx-auto px-4 py-10 sm:py-16 text-center">
+      <h1 class="hero-title text-5xl sm:text-7xl font-bold tracking-tight text-white">
+        <span class="text-accent">NHFC</span>
+      </h1>
+      <p class="mt-3 text-slate-400 text-lg sm:text-xl max-w-xl mx-auto">No Honor Fighting Championship</p>
+      <div id="event-info" class="event-info"></div>
+      <span class="hero-badge">Event & Roster</span>
+    </div>
+  </header>
+
+  <main class="max-w-6xl mx-auto px-4 py-12 sm:py-16">
+    <section id="event-lineup" class="event-and-roster">
+      <div class="section-head">
+        <h2 class="text-xl sm:text-2xl font-semibold text-slate-200">Event Lineup & Roster</h2>
+      </div>
+
+      <h3 class="text-sm font-semibold text-accent/90 uppercase tracking-wider mb-4 mt-2">Matches</h3>
+      <div id="lineup" class="space-y-6 mb-14">
+        <!-- Matches loaded from matches.json -->
+      </div>
+
+      <h3 class="text-sm font-semibold text-accent/90 uppercase tracking-wider mb-4">Fighters</h3>
+      <div id="roster-tree" class="roster-tree">
+        <!-- Tree tiers and cards rendered from roster.json by script -->
+      </div>
+    </section>
+  </main>
+
+  <footer class="border-t border-slate-700/50 mt-20 py-8 text-center text-slate-500 text-sm">
+    <span class="text-accent/80 font-medium">NHFC</span> Roster · Managed with Pages CMS
+  </footer>
+
+  <script>
+    (function () {
+      var treeEl = document.getElementById('roster-tree');
+      var lineupEl = document.getElementById('lineup');
+      var eventInfoEl = document.getElementById('event-info');
+
+      function escapeHtml(s) {
+        var div = document.createElement('div');
+        div.textContent = s;
+        return div.innerHTML;
+      }
+
+      var defaultEvent = {
+        series_number: 1,
+        rounds: 3,
+        round_duration_min: 15,
+        championship_rounds: 5
+      };
+
+      function renderEventInfo(config) {
+        if (!eventInfoEl || !config) return;
+        var s = config.series_number != null ? config.series_number : defaultEvent.series_number;
+        var r = config.rounds != null ? config.rounds : defaultEvent.rounds;
+        var rd = config.round_duration_min != null ? config.round_duration_min : defaultEvent.round_duration_min;
+        var cr = config.championship_rounds != null ? config.championship_rounds : defaultEvent.championship_rounds;
+        eventInfoEl.innerHTML =
+          '<span><strong class="text-accent">NHFC ' + s + '</strong></span>' +
+          '<span class="event-dot"></span>' +
+          '<span>' + r + ' Rounds</span>' +
+          '<span class="event-dot"></span>' +
+          '<span>' + rd + ' minute rounds</span>' +
+          '<span class="event-dot"></span>' +
+          '<span>Championship: ' + cr + ' Rounds</span>';
+      }
+
+      fetch('config.json')
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .then(function (data) {
+          renderEventInfo(data && data.event ? data.event : defaultEvent);
+        })
+        .catch(function () { renderEventInfo(defaultEvent); });
+
+      function findInRoster(name, roster) {
+        if (!roster || !roster.length) return null;
+        var n = (name || '').trim();
+        for (var i = 0; i < roster.length; i++) {
+          if ((roster[i].name || '').trim() === n) return roster[i];
+        }
+        return null;
+      }
+
+      function renderLineup(matches, roster) {
+        if (!lineupEl || !matches || !matches.length) return;
+        var byRound = {};
+        matches.forEach(function (m) {
+          var r = m.round_order != null ? m.round_order : 99;
+          if (!byRound[r]) byRound[r] = [];
+          byRound[r].push(m);
+        });
+        var order = Object.keys(byRound).map(Number).sort(function (a, b) { return a - b; });
+        lineupEl.innerHTML = '';
+        var ROUND_LABELS = { 1: 'Quarterfinals', 2: 'Semifinals', 3: 'Final' };
+        order.forEach(function (roundOrder) {
+          var roundMatches = byRound[roundOrder];
+          var roundLabel = ROUND_LABELS[roundOrder] || ('Round ' + roundOrder);
+          var roundTitle = document.createElement('h3');
+          roundTitle.className = 'text-sm font-semibold text-accent/90 uppercase tracking-wider mb-3';
+          roundTitle.textContent = roundLabel;
+          lineupEl.appendChild(roundTitle);
+          var grid = document.createElement('div');
+          grid.className = 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-8';
+          roundMatches.forEach(function (m) {
+            var f1 = m.fighter1 || 'TBD';
+            var f2 = m.fighter2 || 'TBD';
+            var winner = (m.winner || '').trim();
+            var winnerDisplay = winner;
+            if (winner && roster && roster.length) {
+              var we = findInRoster(winner, roster);
+              if (we && we.osrs_name) winnerDisplay = we.osrs_name;
+            }
+            var label = escapeHtml(f1) + ' vs ' + escapeHtml(f2);
+            var winnerLine = winner ? '<p class="text-xs mt-1 match-winner">Winner: ' + escapeHtml(winnerDisplay) + '</p>' : '<p class="text-xs mt-1 text-slate-500">Winner TBD</p>';
+            var a = document.createElement('a');
+            a.href = 'match.html?id=' + encodeURIComponent(m.id || '');
+            a.className = 'match-card block rounded-xl bg-surfaceLight border border-blood/40 p-4 text-slate-200 no-underline';
+            a.innerHTML = '<p class="font-medium">' + label + '</p>' + winnerLine + '<p class="text-xs text-slate-500 mt-1">' + escapeHtml(m.round || '') + '</p>';
+            grid.appendChild(a);
+          });
+          lineupEl.appendChild(grid);
+        });
+      }
+
+      var defaultMatches = [
+        { id: 'q1', round: 'Quarterfinal 1', round_order: 1, fighter1: 'Fighter One', fighter2: 'Fighter Five', winner: 'Fighter One' },
+        { id: 'q2', round: 'Quarterfinal 2', round_order: 1, fighter1: 'Fighter Two', fighter2: 'Fighter Four', winner: '' },
+        { id: 's1', round: 'Semifinal 1', round_order: 2, fighter1: 'Fighter One', fighter2: 'TBD', winner: '' },
+        { id: 's2', round: 'Semifinal 2', round_order: 2, fighter1: 'TBD', fighter2: 'TBD', winner: '' },
+        { id: 'final', round: 'Final', round_order: 3, fighter1: 'TBD', fighter2: 'TBD', winner: '' }
+      ];
+      Promise.all([
+        fetch('matches.json').then(function (r) { return r.ok ? r.json() : null; }).then(function (data) { return data && data.matches && data.matches.length ? data.matches : defaultMatches; }).catch(function () { return defaultMatches; }),
+        fetch('roster.json').then(function (r) { return r.ok ? r.json() : null; }).then(function (data) { return data && data.entries ? data.entries : []; }).catch(function () { return []; })
+      ]).then(function (results) {
+        var list = results[0];
+        var rosterForLineup = results[1];
+        renderLineup(list, rosterForLineup);
+        renderTree(rosterForLineup.length ? rosterForLineup : defaultRoster);
+      });
+
+      var TIER_ORDER = { champion: 1, veteran: 2, contender: 3, challenger: 4 };
+      var TIER_LABELS = { 1: 'Champion', 2: 'Veterans', 3: 'Contenders', 4: 'Challengers' };
+
+      function getTier(entry) {
+        if (entry.tier != null && entry.tier !== '') return Number(entry.tier);
+        var role = (entry.role || 'contender').toLowerCase();
+        return TIER_ORDER[role] || 3;
+      }
+
+      function discordProfileUrl(entry) {
+        var id = (entry.discord_user_id || '').toString().trim();
+        if (id) return 'https://discord.com/users/' + encodeURIComponent(id);
+        var url = (entry.discord_profile_url || '').trim();
+        if (url) return url;
+        var username = (entry.discord_username || '').toString().trim();
+        if (username) return 'https://discord.com/users/' + encodeURIComponent(username);
+        return '';
+      }
+
+      function renderCard(entry, staggerDelay) {
+        var name = entry.name || 'Fighter';
+        var role = entry.role || 'Contender';
+        var avatarUrl = entry.avatar_url || '';
+        if (!avatarUrl && entry.discord_user_id && entry.discord_avatar_hash) {
+          avatarUrl = 'https://cdn.discordapp.com/avatars/' + encodeURIComponent(entry.discord_user_id) + '/' + encodeURIComponent(entry.discord_avatar_hash) + '.png?size=128';
+        }
+        var record = entry.record || '';
+        var bio = entry.bio || '';
+        var osrsName = entry.osrs_name || '';
+        var eliminated = !!entry.eliminated;
+        var discordUrl = discordProfileUrl(entry);
+        var card = document.createElement('article');
+        card.className = 'roster-card rounded-xl bg-surfaceLight border border-slate-700/50 p-5 hover:border-accent/40 hover:border-blood/30 hover:shadow-lg hover:shadow-accent/5 transition-all duration-200 min-w-[12rem]';
+        if (eliminated) card.classList.add('roster-card--eliminated');
+        if (staggerDelay != null) card.style.animationDelay = staggerDelay + 's';
+        var avatarInner = avatarUrl
+          ? '<img src="' + escapeHtml(avatarUrl) + '" alt="" class="w-14 h-14 rounded-lg object-cover mb-3 roster-avatar">'
+          : '<div class="w-14 h-14 rounded-lg bg-slate-600/50 flex items-center justify-center text-2xl text-slate-400 mb-3 roster-avatar">?</div>';
+        var avatarEl = discordUrl
+          ? '<a href="' + escapeHtml(discordUrl) + '" target="_blank" rel="noopener noreferrer" class="inline-block roster-avatar-link" title="View Discord profile">' + avatarInner + '</a>'
+          : avatarInner;
+        var recordEl = record ? '<p class="text-accent/90 text-xs font-medium mt-1 roster-record">' + escapeHtml(record) + '</p>' : '';
+        var osrsEl = osrsName ? '<p class="font-semibold text-white text-lg mt-1 roster-osrs-name">' + escapeHtml(osrsName) + '</p>' : '';
+        var bioEl = bio ? '<p class="text-slate-500 text-xs mt-1.5 roster-bio">' + escapeHtml(bio) + '</p>' : '';
+        card.innerHTML =
+          avatarEl +
+          osrsEl +
+          '<p class="text-slate-400 text-sm mt-0.5 roster-role">' + escapeHtml(role) + '</p>' +
+          '<p class="text-slate-500 text-sm roster-name mt-0.5">' + escapeHtml(name) + '</p>' +
+          recordEl +
+          bioEl;
+        return card;
+      }
+
+      function buildTiers(entries) {
+        var tiers = {};
+        entries.forEach(function (entry) {
+          var t = getTier(entry);
+          if (!tiers[t]) tiers[t] = [];
+          tiers[t].push(entry);
+        });
+        var order = Object.keys(tiers).map(Number).sort(function (a, b) { return a - b; });
+        return order.map(function (t) { return { tier: t, entries: tiers[t] }; });
+      }
+
+      function renderTree(entries) {
+        treeEl.innerHTML = '';
+        if (!entries || entries.length === 0) return;
+        var tierRows = buildTiers(entries);
+        var cardIndex = 0;
+        tierRows.forEach(function (row, tierIdx) {
+          if (tierIdx > 0) {
+            var conn = document.createElement('div');
+            conn.className = 'tree-connector';
+            treeEl.appendChild(conn);
+          }
+          var label = document.createElement('div');
+          label.className = 'tree-tier-label';
+          label.textContent = TIER_LABELS[row.tier] || 'Tier ' + row.tier;
+          var cardsWrap = document.createElement('div');
+          cardsWrap.className = 'tree-tier-cards';
+          row.entries.forEach(function (entry, j) {
+            var delay = (tierIdx * 0.08 + cardIndex * 0.06).toFixed(2);
+            cardsWrap.appendChild(renderCard(entry, delay));
+            cardIndex++;
+          });
+          var tierEl = document.createElement('div');
+          tierEl.className = 'tree-tier';
+          tierEl.appendChild(label);
+          tierEl.appendChild(cardsWrap);
+          treeEl.appendChild(tierEl);
+        });
+      }
+
+      var defaultRoster = [
+        { name: 'Fighter Three', role: 'Champion', tier: 1 },
+        { name: 'Fighter Two', role: 'Veteran', tier: 2 },
+        { name: 'Fighter Four', role: 'Contender', tier: 3 },
+        { name: 'Fighter One', role: 'Contender' },
+        { name: 'Fighter Five', role: 'Contender' }
+      ];
+
+      // Lineup and roster tree are both filled from Promise.all above (matches + roster).
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,10 @@
+{
+  "entries": [
+    { "name": "Fighter Three", "role": "Champion", "tier": 1, "record": "10-0-0", "bio": "Reigning champion." },
+    { "name": "Fighter Two", "role": "Veteran", "tier": 2, "record": "7-2-1" },
+    { "name": "Grixis105", "role": "Contender", "tier": 2, "osrs_name": "IronGrix", "discord_user_id": "214902308025270274", "discord_username": "grixis105" },
+    { "name": "Fighter Four", "role": "Contender", "tier": 3, "eliminated": true },
+    { "name": "Fighter One", "bio": "Rising contender." },
+    { "name": "Fighter Five", "eliminated": true }
+  ]
+}

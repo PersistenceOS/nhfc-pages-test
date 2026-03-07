@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Match – NHFC</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ['Outfit', 'system-ui', 'sans-serif'] },
+          colors: {
+            surface: '#0f172a',
+            surfaceLight: '#1e293b',
+            accent: '#fbbf24',
+            blood: '#7f1d1d',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { font-family: 'Outfit', system-ui, sans-serif; }
+    .vs-badge {
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      color: rgba(251, 191, 36, 0.95);
+    }
+    .fighter-card { transition: transform 0.2s, box-shadow 0.2s; }
+    .fighter-card.winner {
+      border-color: rgba(251, 191, 36, 0.6);
+      box-shadow: 0 0 0 2px rgba(251, 191, 36, 0.35);
+    }
+    .fighter-card .winner-label {
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      color: rgba(251, 191, 36, 0.98);
+      margin-top: 0.5rem;
+    }
+    .fighter-card.selectable { cursor: pointer; }
+    .fighter-card.selectable:hover {
+      border-color: rgba(251, 191, 36, 0.4);
+      box-shadow: 0 0 0 1px rgba(251, 191, 36, 0.3);
+    }
+    .fighter-card .select-hint {
+      font-size: 0.65rem;
+      color: rgba(251, 191, 36, 0.7);
+      margin-top: 0.5rem;
+    }
+    .btn-next {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-top: 1.5rem;
+      padding: 0.6rem 1.25rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #0f172a;
+      background: #fbbf24;
+      border: none;
+      border-radius: 0.5rem;
+      text-decoration: none;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .btn-next:hover { background: #facc15; transform: translateY(-1px); }
+    .btn-next.secondary {
+      background: transparent;
+      color: #fbbf24;
+      border: 1px solid rgba(251, 191, 36, 0.5);
+    }
+    .btn-next.secondary:hover { background: rgba(251, 191, 36, 0.1); }
+  </style>
+</head>
+<body class="bg-surface text-slate-100 min-h-screen antialiased">
+  <header class="border-b border-blood/40 bg-surfaceLight/30">
+    <div class="max-w-4xl mx-auto px-4 py-6 flex items-center justify-between">
+      <a href="index.html" class="text-slate-400 hover:text-accent text-sm font-medium no-underline">← Event</a>
+      <span class="text-accent font-semibold">NHFC</span>
+    </div>
+  </header>
+
+  <main class="max-w-4xl mx-auto px-4 py-10">
+    <div id="match-root" class="text-center">
+      <p class="text-slate-500">Loading match…</p>
+    </div>
+  </main>
+
+  <script>
+    (function () {
+      var params = new URLSearchParams(window.location.search);
+      var matchId = params.get('id') || '';
+
+      function escapeHtml(s) {
+        if (!s) return '';
+        var div = document.createElement('div');
+        div.textContent = s;
+        return div.innerHTML;
+      }
+
+      function findFighter(name, roster) {
+        if (!roster || !roster.length) return null;
+        var n = (name || '').trim();
+        for (var i = 0; i < roster.length; i++) {
+          if ((roster[i].name || '').trim() === n) return roster[i];
+        }
+        return null;
+      }
+
+      function discordProfileUrl(entry) {
+        if (!entry) return '';
+        var id = (entry.discord_user_id || '').toString().trim();
+        if (id) return 'https://discord.com/users/' + encodeURIComponent(id);
+        var url = (entry.discord_profile_url || '').trim();
+        if (url) return url;
+        var username = (entry.discord_username || '').toString().trim();
+        if (username) return 'https://discord.com/users/' + encodeURIComponent(username);
+        return '';
+      }
+
+      function renderFighterCard(name, rosterEntry, isWinner, selectable, onSelect) {
+        var displayName = name && name.trim() ? name : 'TBD';
+        var avatarUrl = rosterEntry && rosterEntry.avatar_url ? rosterEntry.avatar_url : '';
+        if (!avatarUrl && rosterEntry && rosterEntry.discord_user_id && rosterEntry.discord_avatar_hash) {
+          avatarUrl = 'https://cdn.discordapp.com/avatars/' + encodeURIComponent(rosterEntry.discord_user_id) + '/' + encodeURIComponent(rosterEntry.discord_avatar_hash) + '.png?size=128';
+        }
+        var record = rosterEntry && rosterEntry.record ? rosterEntry.record : '';
+        var role = rosterEntry && rosterEntry.role ? rosterEntry.role : '';
+        var osrsName = rosterEntry && rosterEntry.osrs_name ? rosterEntry.osrs_name : '';
+        var discordUrl = discordProfileUrl(rosterEntry);
+        var card = document.createElement('div');
+        card.className = 'fighter-card rounded-xl bg-surfaceLight border border-slate-700/50 p-6 w-[13rem] flex-shrink-0';
+        if (isWinner) card.classList.add('winner');
+        if (selectable) {
+          card.classList.add('selectable');
+          card.setAttribute('role', 'button');
+          card.setAttribute('tabindex', '0');
+          card.setAttribute('data-fighter-name', name || '');
+        }
+        var avatarInner = avatarUrl
+          ? '<img src="' + escapeHtml(avatarUrl) + '" alt="" class="w-20 h-20 rounded-lg object-cover mx-auto mb-3">'
+          : '<div class="w-20 h-20 rounded-lg bg-slate-600/50 flex items-center justify-center text-3xl text-slate-400 mx-auto mb-3">?</div>';
+        var avatarEl = discordUrl && !selectable
+          ? '<a href="' + escapeHtml(discordUrl) + '" target="_blank" rel="noopener noreferrer" class="inline-block" title="View Discord profile">' + avatarInner + '</a>'
+          : avatarInner;
+        var winnerBadge = isWinner ? '<p class="winner-label">WINNER</p>' : '';
+        var selectHint = selectable ? '<p class="select-hint">Click to select winner</p>' : '';
+        var roleEl = role ? '<p class="text-slate-400 text-xs mt-0.5">' + escapeHtml(role) + '</p>' : '';
+        var osrsEl = osrsName ? '<p class="font-semibold text-white text-lg mt-1">' + escapeHtml(osrsName) + '</p>' : '';
+        var recordEl = record ? '<p class="text-accent/90 text-xs font-medium mt-1">' + escapeHtml(record) + '</p>' : '';
+        var discordNameEl = '<p class="text-slate-500 text-xs mt-0.5">' + escapeHtml(displayName) + '</p>';
+        card.innerHTML =
+          avatarEl +
+          osrsEl +
+          roleEl +
+          discordNameEl +
+          recordEl + winnerBadge + selectHint;
+        if (selectable && onSelect) {
+          card.addEventListener('click', function () { onSelect((name || '').trim()); });
+          card.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onSelect((name || '').trim()); } });
+        }
+        return card;
+      }
+
+      function getOrderedMatchIds(matches) {
+        var list = (matches || []).slice();
+        list.sort(function (a, b) {
+          var roA = a.round_order != null ? a.round_order : 99;
+          var roB = b.round_order != null ? b.round_order : 99;
+          if (roA !== roB) return roA - roB;
+          return (a.id || '').localeCompare(b.id || '');
+        });
+        return list;
+      }
+
+      function renderMatch(match, roster, matches, matchIdForStorage) {
+        var root = document.getElementById('match-root');
+        if (!root) return;
+        if (!match) {
+          root.innerHTML = '<p class="text-slate-500">Match not found.</p><a href="index.html" class="text-accent mt-2 inline-block">Back to event</a>';
+          return;
+        }
+        var storedWinner = (matchIdForStorage && typeof localStorage !== 'undefined') ? localStorage.getItem('nhfc_winner_' + matchIdForStorage) : null;
+        var winner = (storedWinner || (match.winner || '')).trim();
+        var f1Name = (match.fighter1 || 'TBD').trim();
+        var f2Name = (match.fighter2 || 'TBD').trim();
+        var r1 = findFighter(match.fighter1, roster);
+        var r2 = findFighter(match.fighter2, roster);
+        var f1Winner = winner && f1Name === winner;
+        var f2Winner = winner && f2Name === winner;
+        var canSelect = !winner && f1Name !== 'TBD' && f2Name !== 'TBD';
+
+        function selectWinner(fighterName) {
+          if (!fighterName || !matchIdForStorage) return;
+          try { localStorage.setItem('nhfc_winner_' + matchIdForStorage, fighterName); } catch (e) {}
+          renderMatch(match, roster, matches, matchIdForStorage);
+        }
+
+        root.innerHTML = '';
+        var roundTitle = document.createElement('h1');
+        roundTitle.className = 'text-xl font-semibold text-slate-300 mb-8';
+        roundTitle.textContent = match.round || 'Match';
+        root.appendChild(roundTitle);
+
+        var flex = document.createElement('div');
+        flex.className = 'flex flex-wrap items-center justify-center gap-6 sm:gap-10';
+        flex.appendChild(renderFighterCard(match.fighter1, r1, f1Winner, canSelect, selectWinner));
+        var vs = document.createElement('div');
+        vs.className = 'vs-badge';
+        vs.textContent = 'VS';
+        flex.appendChild(vs);
+        flex.appendChild(renderFighterCard(match.fighter2, r2, f2Winner, canSelect, selectWinner));
+        root.appendChild(flex);
+
+        if (winner) {
+          var winnerEntry = findFighter(winner, roster);
+          var winnerDisplay = (winnerEntry && winnerEntry.osrs_name) ? winnerEntry.osrs_name : winner;
+          var result = document.createElement('p');
+          result.className = 'mt-6 text-slate-400 text-sm';
+          result.innerHTML = 'Winner: <span class="text-accent font-semibold">' + escapeHtml(winnerDisplay) + '</span>';
+          if (storedWinner && !(match.winner || '').trim()) {
+            result.innerHTML += ' <span class="text-slate-500 text-xs">(saved in browser — update matches.json to save permanently)</span>';
+          }
+          root.appendChild(result);
+        } else if (canSelect) {
+          var hint = document.createElement('p');
+          hint.className = 'mt-4 text-slate-500 text-sm';
+          hint.textContent = 'Click a fighter once to select winner';
+          root.appendChild(hint);
+        }
+
+        var ordered = getOrderedMatchIds(matches);
+        var currentIndex = -1;
+        for (var i = 0; i < ordered.length; i++) { if ((ordered[i].id || '') === matchIdForStorage) { currentIndex = i; break; } }
+        var nextMatch = currentIndex >= 0 && currentIndex < ordered.length - 1 ? ordered[currentIndex + 1] : null;
+        var nextWrap = document.createElement('div');
+        nextWrap.className = 'mt-10 flex flex-col sm:flex-row items-center justify-center gap-4';
+        if (nextMatch) {
+          var nextLink = document.createElement('a');
+          nextLink.href = 'match.html?id=' + encodeURIComponent(nextMatch.id || '');
+          nextLink.className = 'btn-next';
+          nextLink.textContent = 'Next: ' + (nextMatch.round || nextMatch.id || 'Match');
+          nextWrap.appendChild(nextLink);
+        }
+        var backLink = document.createElement('a');
+        backLink.href = 'index.html';
+        backLink.className = 'btn-next secondary';
+        backLink.textContent = nextMatch ? 'Back to event' : 'Back to event';
+        nextWrap.appendChild(backLink);
+        root.appendChild(nextWrap);
+      }
+
+      function run(roster) {
+        fetch('matches.json')
+          .then(function (r) { return r.ok ? r.json() : null; })
+          .then(function (data) {
+            var matches = (data && data.matches) ? data.matches : [];
+            var match = null;
+            for (var i = 0; i < matches.length; i++) {
+              if ((matches[i].id || '') === matchId) { match = matches[i]; break; }
+            }
+            renderMatch(match, roster, matches, matchId);
+            if (match && match.round) {
+              document.title = match.round + ' – NHFC';
+            }
+          })
+          .catch(function () { renderMatch(null, roster, [], matchId); });
+      }
+
+      fetch('roster.json')
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .then(function (data) {
+          var roster = (data && data.entries) ? data.entries : [];
+          run(roster);
+        })
+        .catch(function () { run([]); });
+    })();
+  </script>
+</body>
+</html>

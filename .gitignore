@@ -1,0 +1,8 @@
+# Local env (Discord tokens for local sync testing)
+.env
+.env.local
+node_modules/
+
+# OS
+.DS_Store
+Thumbs.db
