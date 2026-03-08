@@ -1,0 +1,9 @@
+{
+  "next_event_date": "2026-04-15T19:00:00",
+  "next_event_label": "NHFC 2",
+  "main_event": { "fighter1": "Fighter Three", "fighter2": "TBD" },
+  "co_main": { "fighter1": "Fighter Two", "fighter2": "Fighter One" },
+  "card": [
+    { "fighter1": "Fighter Four", "fighter2": "Fighter Five" }
+  ]
+}

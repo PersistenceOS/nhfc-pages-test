@@ -216,6 +216,16 @@
       <p class="mt-3 text-slate-400 text-lg sm:text-xl max-w-xl mx-auto">No Honor Fighting Championship</p>
       <div id="event-info" class="event-info"></div>
       <span class="hero-badge">Event & Roster</span>
+      <nav class="mt-8 flex flex-wrap justify-center gap-3 sm:gap-4 text-sm">
+        <a href="#event-lineup" class="text-slate-400 hover:text-accent transition-colors">Lineup & Roster</a>
+        <a href="#leaderboard" class="text-slate-400 hover:text-accent transition-colors">Leaderboard</a>
+        <a href="#sponsors" class="text-slate-400 hover:text-accent transition-colors">Sponsors</a>
+        <a href="#upcoming" class="text-slate-400 hover:text-accent transition-colors">Upcoming Fights</a>
+        <a href="#apply-fighter" class="text-slate-400 hover:text-accent transition-colors">Fighter Apply</a>
+        <a href="#merch" class="text-slate-400 hover:text-accent transition-colors">Merch</a>
+        <a href="#apply-volunteer" class="text-slate-400 hover:text-accent transition-colors">Volunteer</a>
+        <a href="#streams" class="text-slate-400 hover:text-accent transition-colors">Streams</a>
+      </nav>
     </div>
   </header>
 
@@ -234,6 +244,84 @@
       <div id="roster-tree" class="roster-tree">
         <!-- Tree tiers and cards rendered from roster.json by script -->
       </div>
+    </section>
+
+    <section id="leaderboard" class="mt-20 pt-12 border-t border-slate-700/50">
+      <div class="section-head">
+        <h2 class="text-xl sm:text-2xl font-semibold text-slate-200">Leaderboard</h2>
+      </div>
+      <p class="text-slate-400 text-sm mb-6 max-w-2xl mx-auto text-center">Competitive fighter rankings by wins, KDR, and points. Sort by column to compare.</p>
+      <div class="overflow-x-auto rounded-xl border border-slate-700/50 bg-surfaceLight/50">
+        <table class="w-full text-left text-sm" id="leaderboard-table">
+          <thead class="bg-blood/20 text-accent/90 uppercase tracking-wider text-xs">
+            <tr>
+              <th class="px-4 py-3 cursor-pointer hover:bg-blood/30" data-sort="rank">Rank</th>
+              <th class="px-4 py-3 cursor-pointer hover:bg-blood/30" data-sort="name">Fighter</th>
+              <th class="px-4 py-3 cursor-pointer hover:bg-blood/30" data-sort="wins">Wins</th>
+              <th class="px-4 py-3 cursor-pointer hover:bg-blood/30" data-sort="losses">Losses</th>
+              <th class="px-4 py-3 cursor-pointer hover:bg-blood/30" data-sort="kdr">KDR</th>
+              <th class="px-4 py-3 cursor-pointer hover:bg-blood/30" data-sort="tkos">TKOs</th>
+              <th class="px-4 py-3 cursor-pointer hover:bg-blood/30" data-sort="points">Points</th>
+            </tr>
+          </thead>
+          <tbody id="leaderboard-body" class="text-slate-300"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="sponsors" class="mt-20 pt-12 border-t border-slate-700/50">
+      <div class="section-head">
+        <h2 class="text-xl sm:text-2xl font-semibold text-slate-200">Event Sponsors</h2>
+      </div>
+      <h3 class="text-sm font-semibold text-accent/90 uppercase tracking-wider mb-4">Current Event</h3>
+      <div id="sponsors-current" class="flex flex-wrap justify-center gap-8 mb-12"></div>
+      <h3 class="text-sm font-semibold text-accent/90 uppercase tracking-wider mb-4">Sponsor Leaderboard</h3>
+      <div id="sponsors-leaderboard" class="flex flex-wrap justify-center gap-6"></div>
+    </section>
+
+    <section id="upcoming" class="mt-20 pt-12 border-t border-slate-700/50">
+      <div class="section-head">
+        <h2 class="text-xl sm:text-2xl font-semibold text-slate-200">Upcoming Fights & Events</h2>
+      </div>
+      <div id="upcoming-countdown" class="text-center text-accent font-semibold text-lg mb-6"></div>
+      <div id="upcoming-card" class="space-y-6"></div>
+    </section>
+
+    <section id="apply-fighter" class="mt-20 pt-12 border-t border-slate-700/50">
+      <div class="section-head">
+        <h2 class="text-xl sm:text-2xl font-semibold text-slate-200">Fighter Application</h2>
+      </div>
+      <p class="text-slate-400 text-sm mb-6 max-w-2xl mx-auto text-center">Apply to compete in NHFC. Submit your in-game name, build, PvP experience, and contact details.</p>
+      <div class="text-center">
+        <a href="fighter-apply.html" class="inline-block px-6 py-3 rounded-lg bg-blood/80 hover:bg-blood text-white font-semibold border border-accent/50 transition-colors">Apply to Fight</a>
+      </div>
+    </section>
+
+    <section id="merch" class="mt-20 pt-12 border-t border-slate-700/50">
+      <div class="section-head">
+        <h2 class="text-xl sm:text-2xl font-semibold text-slate-200">Merch Store</h2>
+      </div>
+      <div class="text-center py-12 rounded-xl border border-slate-700/50 bg-surfaceLight/30">
+        <p class="text-accent font-semibold text-lg">Merch Store – Coming Soon</p>
+        <p class="text-slate-500 text-sm mt-2">Apparel, digital content, and community merchandise.</p>
+      </div>
+    </section>
+
+    <section id="apply-volunteer" class="mt-20 pt-12 border-t border-slate-700/50">
+      <div class="section-head">
+        <h2 class="text-xl sm:text-2xl font-semibold text-slate-200">Volunteer & Staff Applications</h2>
+      </div>
+      <p class="text-slate-400 text-sm mb-4 max-w-2xl mx-auto text-center">Help grow NHFC as event staff, moderator, commentator, content creator, or community manager.</p>
+      <div class="text-center">
+        <a href="volunteer-apply.html" class="inline-block px-6 py-3 rounded-lg bg-blood/80 hover:bg-blood text-white font-semibold border border-accent/50 transition-colors">Apply to Volunteer</a>
+      </div>
+    </section>
+
+    <section id="streams" class="mt-20 pt-12 border-t border-slate-700/50">
+      <div class="section-head">
+        <h2 class="text-xl sm:text-2xl font-semibold text-slate-200">Streams & Platforms</h2>
+      </div>
+      <div id="streams-list" class="flex flex-wrap justify-center gap-6"></div>
     </section>
   </main>
 
@@ -453,6 +541,120 @@
       ];
 
       // Lineup and roster tree are both filled from Promise.all above (matches + roster).
+    })();
+
+    (function () {
+      function escapeHtml(s) {
+        var d = document.createElement('div');
+        d.textContent = s == null ? '' : s;
+        return d.innerHTML;
+      }
+
+      // Leaderboard
+      var leaderboardData = [];
+      function renderLeaderboard(entries) {
+        var tbody = document.getElementById('leaderboard-body');
+        if (!tbody || !entries || !entries.length) return;
+        var sorted = entries.slice().sort(function (a, b) { return (b.points || 0) - (a.points || 0); });
+        tbody.innerHTML = sorted.map(function (e, i) {
+          return '<tr class="border-t border-slate-700/50 hover:bg-slate-700/20">' +
+            '<td class="px-4 py-3 text-accent font-medium">' + (i + 1) + '</td>' +
+            '<td class="px-4 py-3 font-medium">' + escapeHtml(e.name || '') + '</td>' +
+            '<td class="px-4 py-3">' + escapeHtml(String(e.wins != null ? e.wins : '')) + '</td>' +
+            '<td class="px-4 py-3">' + escapeHtml(String(e.losses != null ? e.losses : '')) + '</td>' +
+            '<td class="px-4 py-3">' + escapeHtml(String(e.kdr != null ? e.kdr : '')) + '</td>' +
+            '<td class="px-4 py-3">' + escapeHtml(String(e.tkos != null ? e.tkos : '')) + '</td>' +
+            '<td class="px-4 py-3 text-accent font-medium">' + escapeHtml(String(e.points != null ? e.points : '')) + '</td></tr>';
+        }).join('');
+      }
+      function sortLeaderboard(key) {
+        var sorted = leaderboardData.slice();
+        if (key === 'rank' || key === 'points') sorted.sort(function (a, b) { return (b.points || 0) - (a.points || 0); });
+        else if (key === 'name') sorted.sort(function (a, b) { return (a.name || '').localeCompare(b.name || ''); });
+        else if (key === 'wins') sorted.sort(function (a, b) { return (b.wins || 0) - (a.wins || 0); });
+        else if (key === 'losses') sorted.sort(function (a, b) { return (b.losses || 0) - (a.losses || 0); });
+        else if (key === 'kdr') sorted.sort(function (a, b) { return parseFloat(b.kdr) - parseFloat(a.kdr); });
+        else if (key === 'tkos') sorted.sort(function (a, b) { return (b.tkos || 0) - (a.tkos || 0); });
+        leaderboardData = sorted;
+        renderLeaderboard(leaderboardData);
+      }
+      fetch('leaderboard.json').then(function (r) { return r.ok ? r.json() : null; }).then(function (data) {
+        leaderboardData = (data && data.entries) ? data.entries : [];
+        renderLeaderboard(leaderboardData);
+        var table = document.getElementById('leaderboard-table');
+        if (table) table.querySelectorAll('th[data-sort]').forEach(function (th) {
+          th.addEventListener('click', function () { sortLeaderboard(th.getAttribute('data-sort')); });
+        });
+      }).catch(function () {});
+
+      // Sponsors
+      fetch('sponsors.json').then(function (r) { return r.ok ? r.json() : null; }).then(function (data) {
+        var cur = document.getElementById('sponsors-current');
+        var lead = document.getElementById('sponsors-leaderboard');
+        if (cur && data && data.current && data.current.length) {
+          cur.innerHTML = data.current.map(function (s) {
+            var img = s.logo_url ? '<img src="' + escapeHtml(s.logo_url) + '" alt="" class="h-12 w-auto object-contain max-w-[140px]">' : '<span class="text-slate-400 font-medium">' + escapeHtml(s.name) + '</span>';
+            var inner = s.link ? '<a href="' + escapeHtml(s.link) + '" target="_blank" rel="noopener" class="block p-4 rounded-lg border border-slate-600/50 hover:border-accent/50 transition-colors">' + img + '</a>' : '<div class="p-4 rounded-lg border border-slate-600/50">' + img + '</div>';
+            return inner;
+          }).join('');
+        }
+        if (lead && data && data.leaderboard && data.leaderboard.length) {
+          lead.innerHTML = data.leaderboard.map(function (s) {
+            return '<div class="px-4 py-2 rounded-lg bg-surfaceLight border border-slate-600/50"><span class="font-medium">' + escapeHtml(s.name) + '</span><span class="text-slate-500 text-sm ml-2">' + (s.events_sponsored || 0) + ' events</span></div>';
+          }).join('');
+        }
+      }).catch(function () {});
+
+      // Upcoming
+      function countdownTo(dateStr) {
+        var d = new Date(dateStr);
+        if (isNaN(d.getTime())) return '';
+        var now = new Date();
+        if (d <= now) return 'Event passed';
+        var diff = d - now;
+        var days = Math.floor(diff / 86400000);
+        var h = Math.floor((diff % 86400000) / 3600000);
+        var m = Math.floor((diff % 3600000) / 60000);
+        return days + 'd ' + h + 'h ' + m + 'm to go';
+      }
+      fetch('upcoming.json').then(function (r) { return r.ok ? r.json() : null; }).then(function (data) {
+        var countEl = document.getElementById('upcoming-countdown');
+        var cardEl = document.getElementById('upcoming-card');
+        if (!data) return;
+        if (countEl && data.next_event_date) {
+          countEl.textContent = (data.next_event_label || 'Next Event') + ' · ' + countdownTo(data.next_event_date);
+          setInterval(function () { countEl.textContent = (data.next_event_label || 'Next Event') + ' · ' + countdownTo(data.next_event_date); }, 60000);
+        }
+        if (cardEl) {
+          var html = '';
+          if (data.main_event && (data.main_event.fighter1 || data.main_event.fighter2)) {
+            html += '<div class="rounded-xl border border-accent/50 bg-surfaceLight/50 p-4"><p class="text-xs text-accent uppercase tracking-wider mb-2">Main Event</p><p class="font-semibold">' + escapeHtml(data.main_event.fighter1 || 'TBD') + ' vs ' + escapeHtml(data.main_event.fighter2 || 'TBD') + '</p></div>';
+          }
+          if (data.co_main && (data.co_main.fighter1 || data.co_main.fighter2)) {
+            html += '<div class="rounded-xl border border-slate-600/50 bg-surfaceLight/30 p-4"><p class="text-xs text-slate-400 uppercase tracking-wider mb-2">Co-Main</p><p class="font-medium">' + escapeHtml(data.co_main.fighter1 || 'TBD') + ' vs ' + escapeHtml(data.co_main.fighter2 || 'TBD') + '</p></div>';
+          }
+          if (data.card && data.card.length) data.card.forEach(function (m) {
+            html += '<div class="rounded-xl border border-slate-700/50 p-3"><p class="text-sm">' + escapeHtml(m.fighter1 || 'TBD') + ' vs ' + escapeHtml(m.fighter2 || 'TBD') + '</p></div>';
+          });
+          cardEl.innerHTML = html || '<p class="text-slate-500">No upcoming card yet.</p>';
+        }
+      }).catch(function () {});
+
+      // Streams
+      fetch('config.json').then(function (r) { return r.ok ? r.json() : null; }).then(function (data) {
+        var el = document.getElementById('streams-list');
+        if (!el) return;
+        var streams = (data && data.streams) ? data.streams : {};
+        var links = [];
+        if (streams.kick) links.push({ label: 'Kick', name: streams.kick, url: 'https://kick.com/' + encodeURIComponent(streams.kick) });
+        if (streams.twitch && streams.twitch.length) streams.twitch.forEach(function (u) {
+          links.push({ label: 'Twitch', name: u, url: 'https://www.twitch.tv/' + encodeURIComponent(u) });
+        });
+        if (streams.discord) links.push({ label: 'Discord', name: 'Community', url: streams.discord });
+        el.innerHTML = links.map(function (l) {
+          return '<a href="' + escapeHtml(l.url) + '" target="_blank" rel="noopener" class="px-5 py-3 rounded-lg bg-surfaceLight border border-slate-600/50 hover:border-accent/50 text-slate-200 font-medium transition-colors">' + escapeHtml(l.label) + ': ' + escapeHtml(l.name) + '</a>';
+        }).join('');
+      }).catch(function () {});
     })();
   </script>
 </body>

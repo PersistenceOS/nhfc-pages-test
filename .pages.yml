@@ -116,3 +116,125 @@ content:
           - name: championship_rounds
             label: Championship rounds
             type: number
+      - name: streams
+        label: Streams & platforms
+        type: object
+        fields:
+          - name: kick
+            label: Kick username
+            type: string
+          - name: twitch
+            label: Twitch usernames
+            type: string
+            list: true
+          - name: discord
+            label: Discord invite URL
+            type: string
+
+  - name: leaderboard
+    label: Leaderboard
+    type: file
+    path: leaderboard.json
+    format: json
+    fields:
+      - name: entries
+        label: Fighter stats
+        type: object
+        list: true
+        fields:
+          - name: name
+            label: Fighter name
+            type: string
+            required: true
+          - name: wins
+            label: Wins
+            type: number
+          - name: losses
+            label: Losses
+            type: number
+          - name: kdr
+            label: KDR
+            type: string
+          - name: tkos
+            label: TKOs
+            type: number
+          - name: points
+            label: Points
+            type: number
+
+  - name: sponsors
+    label: Sponsors
+    type: file
+    path: sponsors.json
+    format: json
+    fields:
+      - name: current
+        label: Current event sponsors
+        type: object
+        list: true
+        fields:
+          - name: name
+            label: Sponsor name
+            type: string
+          - name: logo_url
+            label: Logo URL
+            type: string
+          - name: link
+            label: Link URL
+            type: string
+      - name: leaderboard
+        label: Sponsor leaderboard
+        type: object
+        list: true
+        fields:
+          - name: name
+            label: Name
+            type: string
+          - name: events_sponsored
+            label: Events sponsored
+            type: number
+
+  - name: upcoming
+    label: Upcoming fights
+    type: file
+    path: upcoming.json
+    format: json
+    fields:
+      - name: next_event_date
+        label: Next event date (ISO)
+        type: string
+        description: e.g. 2026-04-15T19:00:00
+      - name: next_event_label
+        label: Next event label
+        type: string
+      - name: main_event
+        label: Main event
+        type: object
+        fields:
+          - name: fighter1
+            label: Fighter 1
+            type: string
+          - name: fighter2
+            label: Fighter 2
+            type: string
+      - name: co_main
+        label: Co-main event
+        type: object
+        fields:
+          - name: fighter1
+            label: Fighter 1
+            type: string
+          - name: fighter2
+            label: Fighter 2
+            type: string
+      - name: card
+        label: Rest of card
+        type: object
+        list: true
+        fields:
+          - name: fighter1
+            label: Fighter 1
+            type: string
+          - name: fighter2
+            label: Fighter 2
+            type: string

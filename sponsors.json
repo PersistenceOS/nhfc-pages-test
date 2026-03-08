@@ -1,0 +1,13 @@
+{
+  "current": [
+    { "name": "Sponsor One", "logo_url": "", "link": "https://example.com" },
+    { "name": "Sponsor Two", "logo_url": "", "link": "https://example.com" }
+  ],
+  "archive": [
+    { "event_name": "NHFC 1", "sponsors": [{ "name": "Past Sponsor", "link": "" }] }
+  ],
+  "leaderboard": [
+    { "name": "Top Supporter", "events_sponsored": 3 },
+    { "name": "Community Backer", "events_sponsored": 2 }
+  ]
+}

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fighter Application – NHFC</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ['Outfit', 'system-ui', 'sans-serif'] },
+          colors: { surface: '#0f172a', surfaceLight: '#1e293b', accent: '#fbbf24', blood: '#7f1d1d' }
+        }
+      }
+    };
+  </script>
+  <style>body { font-family: 'Outfit', system-ui, sans-serif; }</style>
+</head>
+<body class="bg-surface text-slate-100 min-h-screen antialiased">
+  <header class="border-b border-blood/50 bg-surfaceLight/30">
+    <div class="max-w-3xl mx-auto px-4 py-6 flex items-center justify-between">
+      <a href="index.html" class="text-slate-400 hover:text-accent transition-colors">← Event</a>
+      <span class="text-accent font-semibold">NHFC</span>
+    </div>
+  </header>
+
+  <main class="max-w-2xl mx-auto px-4 py-12">
+    <h1 class="text-2xl font-bold text-slate-200 mb-2">Fighter Application</h1>
+    <p class="text-slate-500 text-sm mb-8">Apply to compete in NHFC. Fill out the form below.</p>
+
+    <form id="fighter-form" action="#" method="post" class="space-y-6">
+      <div>
+        <label for="in_game_name" class="block text-sm font-medium text-slate-300 mb-1">In-game name *</label>
+        <input type="text" id="in_game_name" name="in_game_name" required class="w-full px-4 py-2 rounded-lg bg-surfaceLight border border-slate-600 text-slate-100 focus:border-accent focus:ring-1 focus:ring-accent">
+      </div>
+      <div>
+        <label for="combat_build" class="block text-sm font-medium text-slate-300 mb-1">Combat build *</label>
+        <select id="combat_build" name="combat_build" required class="w-full px-4 py-2 rounded-lg bg-surfaceLight border border-slate-600 text-slate-100 focus:border-accent focus:ring-1 focus:ring-accent">
+          <option value="">Select build</option>
+          <option value="Max">Max</option>
+          <option value="Pure">Pure</option>
+          <option value="Zerker">Zerker</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+      <div>
+        <label for="pvp_experience" class="block text-sm font-medium text-slate-300 mb-1">Experience in PvP</label>
+        <textarea id="pvp_experience" name="pvp_experience" rows="3" class="w-full px-4 py-2 rounded-lg bg-surfaceLight border border-slate-600 text-slate-100 focus:border-accent focus:ring-1 focus:ring-accent" placeholder="Brief description of your PvP experience"></textarea>
+      </div>
+      <div>
+        <label for="discord_username" class="block text-sm font-medium text-slate-300 mb-1">Discord username *</label>
+        <input type="text" id="discord_username" name="discord_username" required class="w-full px-4 py-2 rounded-lg bg-surfaceLight border border-slate-600 text-slate-100 focus:border-accent focus:ring-1 focus:ring-accent" placeholder="username or username#0000">
+      </div>
+      <div>
+        <label for="contact" class="block text-sm font-medium text-slate-300 mb-1">Contact (email or other)</label>
+        <input type="text" id="contact" name="contact" class="w-full px-4 py-2 rounded-lg bg-surfaceLight border border-slate-600 text-slate-100 focus:border-accent focus:ring-1 focus:ring-accent" placeholder="Email or preferred contact">
+      </div>
+      <button type="submit" class="w-full py-3 rounded-lg bg-blood hover:bg-blood/90 text-white font-semibold border border-accent/50 transition-colors">Submit Application</button>
+    </form>
+
+    <p class="mt-6 text-slate-500 text-xs">Set the form action to your Formspree or backend URL to receive submissions.</p>
+  </main>
+</body>
+</html>
