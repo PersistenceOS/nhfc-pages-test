@@ -177,6 +177,10 @@ content:
           - name: tkos
             label: TKOs
             type: number
+          - name: points
+            label: Total points
+            type: number
+            description: Used for rankings (points or performance)
 
   - name: sponsors
     label: Sponsors

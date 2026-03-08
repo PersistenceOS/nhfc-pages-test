@@ -1,18 +1,18 @@
 {
   "entries": [
-    { "name": "IFINESSED", "bracket": "MAIN", "wins": 4, "losses": 1, "kdr": "3.2", "skill_level": 8 },
-    { "name": "AHMD", "bracket": "MAIN", "wins": 3, "losses": 1, "kdr": "4.0", "skill_level": 9 },
-    { "name": "WINDWALKERZ", "bracket": "ZERK", "wins": 3, "losses": 2, "kdr": "3.0", "skill_level": 7 },
-    { "name": "POKEFLEX", "bracket": "PURE", "wins": 2, "losses": 2, "kdr": "2.1", "skill_level": 6 },
-    { "name": "BUZZERK", "bracket": "MAIN", "wins": 2, "losses": 1, "kdr": "1.8", "skill_level": 5 },
-    { "name": "FRANKIE", "bracket": "ZERK", "wins": 2, "losses": 2, "kdr": "1.5", "skill_level": 6 },
-    { "name": "WOOLY", "bracket": "PURE", "wins": 1, "losses": 1, "kdr": "2.0", "skill_level": 5 },
-    { "name": "SETH2020", "bracket": "MAIN", "wins": 1, "losses": 2, "kdr": "1.2", "skill_level": 4 },
-    { "name": "CANSECO", "bracket": "ZERK", "wins": 1, "losses": 1, "kdr": "1.0", "skill_level": 5 },
-    { "name": "GREG2007", "bracket": "MAIN", "wins": 1, "losses": 2, "kdr": "0.8", "skill_level": 4 },
-    { "name": "KEENAN", "bracket": "PURE", "wins": 0, "losses": 2, "kdr": "0.5", "skill_level": null },
-    { "name": "DAMAGE", "bracket": "MAIN", "wins": 0, "losses": 1, "kdr": "0.0", "skill_level": 3 },
-    { "name": "BURT", "bracket": "ZERK", "wins": 0, "losses": 1, "kdr": "0.0", "skill_level": 2 },
-    { "name": "KEEP EATN", "bracket": "PURE", "wins": 0, "losses": 0, "kdr": "0.0", "skill_level": 2 }
+    { "name": "IFINESSED", "bracket": "MAIN", "wins": 4, "losses": 1, "kdr": "3.2", "tkos": 2, "points": 48, "skill_level": 8 },
+    { "name": "AHMD", "bracket": "MAIN", "wins": 3, "losses": 1, "kdr": "4.0", "tkos": 3, "points": 45, "skill_level": 9 },
+    { "name": "WINDWALKERZ", "bracket": "ZERK", "wins": 3, "losses": 2, "kdr": "3.0", "tkos": 1, "points": 38, "skill_level": 7 },
+    { "name": "POKEFLEX", "bracket": "PURE", "wins": 2, "losses": 2, "kdr": "2.1", "tkos": 1, "points": 28, "skill_level": 6 },
+    { "name": "BUZZERK", "bracket": "MAIN", "wins": 2, "losses": 1, "kdr": "1.8", "tkos": 0, "points": 26, "skill_level": 5 },
+    { "name": "FRANKIE", "bracket": "ZERK", "wins": 2, "losses": 2, "kdr": "1.5", "tkos": 0, "points": 22, "skill_level": 6 },
+    { "name": "WOOLY", "bracket": "PURE", "wins": 1, "losses": 1, "kdr": "2.0", "tkos": 1, "points": 18, "skill_level": 5 },
+    { "name": "SETH2020", "bracket": "MAIN", "wins": 1, "losses": 2, "kdr": "1.2", "tkos": 0, "points": 12, "skill_level": 4 },
+    { "name": "CANSECO", "bracket": "ZERK", "wins": 1, "losses": 1, "kdr": "1.0", "tkos": 0, "points": 11, "skill_level": 5 },
+    { "name": "GREG2007", "bracket": "MAIN", "wins": 1, "losses": 2, "kdr": "0.8", "tkos": 0, "points": 9, "skill_level": 4 },
+    { "name": "KEENAN", "bracket": "PURE", "wins": 0, "losses": 2, "kdr": "0.5", "tkos": 0, "points": 2, "skill_level": null },
+    { "name": "DAMAGE", "bracket": "MAIN", "wins": 0, "losses": 1, "kdr": "0.0", "tkos": 0, "points": 0, "skill_level": 3 },
+    { "name": "BURT", "bracket": "ZERK", "wins": 0, "losses": 1, "kdr": "0.0", "tkos": 0, "points": 0, "skill_level": 2 },
+    { "name": "KEEP EATN", "bracket": "PURE", "wins": 0, "losses": 0, "kdr": "0.0", "tkos": 0, "points": 0, "skill_level": 2 }
   ]
 }

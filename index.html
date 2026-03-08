@@ -259,7 +259,7 @@
       <div class="section-head">
         <h2 class="text-xl sm:text-2xl font-semibold text-slate-200">Leaderboard</h2>
       </div>
-      <p class="text-slate-400 text-sm mb-4 max-w-2xl mx-auto text-center">W / L / KDR by bracket. Filter and sort for stream-ready rankings.</p>
+      <p class="text-slate-400 text-sm mb-4 max-w-2xl mx-auto text-center">Wins, Losses, KDR, TKOs, and Total Points by bracket. Sort by any column for stream-ready rankings.</p>
       <div id="leaderboard-filters" class="flex flex-wrap justify-center gap-2 mb-4">
         <button type="button" class="leaderboard-filter px-4 py-2 rounded-lg text-sm font-medium border transition-colors bg-blood/30 border-blood/60 text-white" data-bracket="">All</button>
         <button type="button" class="leaderboard-filter px-4 py-2 rounded-lg text-sm font-medium border border-slate-600 text-slate-400 hover:border-accent/50 hover:text-accent" data-bracket="MAIN">Main</button>
@@ -278,6 +278,7 @@
               <th class="px-3 sm:px-4 py-3 cursor-pointer hover:bg-blood/30" data-sort="losses">L</th>
               <th class="px-3 sm:px-4 py-3 cursor-pointer hover:bg-blood/30 bg-blood/30 text-blood font-semibold" data-sort="kdr">KDR</th>
               <th class="px-3 sm:px-4 py-3 cursor-pointer hover:bg-blood/30" data-sort="tkos">TKOs</th>
+              <th class="px-3 sm:px-4 py-3 cursor-pointer hover:bg-blood/30 text-accent" data-sort="points">Points</th>
             </tr>
           </thead>
           <tbody id="leaderboard-body" class="text-slate-300"></tbody>
@@ -293,15 +294,16 @@
 
       <div class="max-w-3xl mx-auto space-y-10">
         <div class="rounded-xl border border-slate-700/50 bg-surfaceLight/50 p-6">
-          <h3 class="text-blood font-semibold text-lg mb-3">How rankings work (no points)</h3>
-          <p class="text-slate-300 text-sm mb-4">NHFC does not use a points system. Fighters are ranked by raw stats:</p>
+          <h3 class="text-blood font-semibold text-lg mb-3">Point system & rankings</h3>
+          <p class="text-slate-300 text-sm mb-4">The leaderboard tracks performance and <strong class="text-accent">Total Points</strong>. Rankings can be based on points or on performance stats:</p>
           <ul class="text-slate-400 text-sm space-y-2 list-disc list-inside">
+            <li><strong class="text-slate-300">Total Points</strong> — Combined score from wins, performance, and events (used for overall rank).</li>
             <li><strong class="text-slate-300">W</strong> — Tournament wins (matches won).</li>
             <li><strong class="text-slate-300">L</strong> — Losses (matches lost).</li>
             <li><strong class="text-blood font-medium">KDR</strong> — Kill/Death ratio (kills ÷ deaths). Higher is better.</li>
-            <li><strong class="text-slate-300">TKOs</strong> — Technical knockouts (if tracked).</li>
+            <li><strong class="text-slate-300">TKOs</strong> — Technical knockouts.</li>
           </ul>
-          <p class="text-slate-400 text-sm mt-3">Use the leaderboard filters (All, Main, Zerk, Pure) to see rankings by bracket. Click column headers to sort by W, L, or KDR.</p>
+          <p class="text-slate-400 text-sm mt-3">Use the leaderboard filters (All, Main, Zerk, Pure) to see rankings by bracket. Click column headers to sort by Points, W, L, KDR, or TKOs.</p>
         </div>
 
         <div class="rounded-xl border border-slate-700/50 bg-surfaceLight/50 p-6">
@@ -618,7 +620,7 @@
 
       var leaderboardRaw = [];
       var leaderboardFilter = '';
-      var leaderboardSortKey = 'wins';
+      var leaderboardSortKey = 'points';
 
       function getFiltered() {
         if (!leaderboardFilter) return leaderboardRaw.slice();
@@ -627,7 +629,8 @@
 
       function sortEntries(list, key) {
         var arr = list.slice();
-        if (key === 'rank' || key === 'wins') arr.sort(function (a, b) { return (b.wins || 0) - (a.wins || 0); });
+        if (key === 'rank' || key === 'points') arr.sort(function (a, b) { return (b.points || 0) - (a.points || 0); });
+        else if (key === 'wins') arr.sort(function (a, b) { return (b.wins || 0) - (a.wins || 0); });
         else if (key === 'name') arr.sort(function (a, b) { return (a.name || '').localeCompare(b.name || ''); });
         else if (key === 'losses') arr.sort(function (a, b) { return (b.losses || 0) - (a.losses || 0); });
         else if (key === 'kdr') arr.sort(function (a, b) { return (parseFloat(b.kdr) || 0) - (parseFloat(a.kdr) || 0); });
@@ -643,6 +646,7 @@
           tbody.innerHTML = sorted.length ? sorted.map(function (e, i) {
             var bracket = (e.bracket || '').toUpperCase() || '—';
             var kdrVal = e.kdr != null && e.kdr !== '' ? escapeHtml(String(e.kdr)) : '—';
+            var pts = e.points != null ? e.points : '';
             return '<tr class="border-t border-slate-700/50 hover:bg-slate-700/20">' +
               '<td class="px-3 sm:px-4 py-3 text-accent font-medium">' + (i + 1) + '</td>' +
               '<td class="px-3 sm:px-4 py-3 font-medium">' + escapeHtml(e.name || '') + '</td>' +
@@ -650,14 +654,15 @@
               '<td class="px-3 sm:px-4 py-3">' + escapeHtml(String(e.wins != null ? e.wins : '')) + '</td>' +
               '<td class="px-3 sm:px-4 py-3">' + escapeHtml(String(e.losses != null ? e.losses : '')) + '</td>' +
               '<td class="px-3 sm:px-4 py-3 text-blood font-semibold">' + kdrVal + '</td>' +
-              '<td class="px-3 sm:px-4 py-3">' + escapeHtml(String(e.tkos != null ? e.tkos : '')) + '</td></tr>';
-          }).join('') : '<tr><td colspan="7" class="px-4 py-8 text-center text-slate-500">No fighters in this bracket.</td></tr>';
+              '<td class="px-3 sm:px-4 py-3">' + escapeHtml(String(e.tkos != null ? e.tkos : '')) + '</td>' +
+              '<td class="px-3 sm:px-4 py-3 text-accent font-medium">' + escapeHtml(String(pts)) + '</td></tr>';
+          }).join('') : '<tr><td colspan="8" class="px-4 py-8 text-center text-slate-500">No fighters in this bracket.</td></tr>';
         }
         if (spotlight && sorted.length) {
           var top3 = sorted.slice(0, 3);
           spotlight.innerHTML = '<span class="text-slate-500 uppercase text-xs tracking-wider">Top 3</span>' + top3.map(function (e, i) {
             var medals = ['🥇', '🥈', '🥉'];
-            return '<span class="inline-flex items-center gap-2"><span class="text-accent">' + medals[i] + '</span> <span class="font-medium text-slate-200">' + escapeHtml(e.name || '') + '</span> <span class="text-blood font-semibold">KDR ' + escapeHtml(String(e.kdr != null ? e.kdr : '0')) + '</span></span>';
+            return '<span class="inline-flex items-center gap-2"><span class="text-accent">' + medals[i] + '</span> <span class="font-medium text-slate-200">' + escapeHtml(e.name || '') + '</span> <span class="text-accent font-semibold">' + (e.points != null ? e.points : '0') + ' pts</span> <span class="text-blood font-semibold">KDR ' + escapeHtml(String(e.kdr != null ? e.kdr : '0')) + '</span></span>';
           }).join('<span class="text-slate-600">|</span>');
           spotlight.style.display = 'flex';
         } else if (spotlight) {
