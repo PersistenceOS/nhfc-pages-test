@@ -116,6 +116,18 @@ content:
           - name: championship_rounds
             label: Championship rounds
             type: number
+      - name: a_spot
+        label: A Spot (setup/gear for this week)
+        type: object
+        fields:
+          - name: week_label
+            label: Week label
+            type: string
+            description: e.g. Week 1, Week 2
+          - name: setup_gear
+            label: Setup / gear
+            type: text
+            description: Setup and gear rules for this week's event
       - name: streams
         label: Streams & platforms
         type: object
@@ -157,9 +169,6 @@ content:
             type: string
           - name: tkos
             label: TKOs
-            type: number
-          - name: points
-            label: Points
             type: number
 
   - name: sponsors

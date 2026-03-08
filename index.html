@@ -218,6 +218,7 @@
       <span class="hero-badge">Event & Roster</span>
       <nav class="mt-8 flex flex-wrap justify-center gap-3 sm:gap-4 text-sm">
         <a href="#event-lineup" class="text-slate-400 hover:text-accent transition-colors">Lineup & Roster</a>
+        <a href="#a-spot" class="text-slate-400 hover:text-accent transition-colors">A Spot</a>
         <a href="#leaderboard" class="text-slate-400 hover:text-accent transition-colors">Leaderboard</a>
         <a href="#sponsors" class="text-slate-400 hover:text-accent transition-colors">Sponsors</a>
         <a href="#upcoming" class="text-slate-400 hover:text-accent transition-colors">Upcoming Fights</a>
@@ -246,11 +247,19 @@
       </div>
     </section>
 
+    <section id="a-spot" class="mt-20 pt-12 border-t border-slate-700/50">
+      <div class="section-head">
+        <h2 class="text-xl sm:text-2xl font-semibold text-slate-200">A Spot</h2>
+      </div>
+      <p class="text-slate-400 text-sm mb-4 max-w-2xl mx-auto text-center">Setup and gear for this week’s event.</p>
+      <div id="a-spot-content" class="rounded-xl border border-accent/40 bg-surfaceLight/50 p-6 text-slate-300 max-w-2xl mx-auto"></div>
+    </section>
+
     <section id="leaderboard" class="mt-20 pt-12 border-t border-slate-700/50">
       <div class="section-head">
         <h2 class="text-xl sm:text-2xl font-semibold text-slate-200">Leaderboard</h2>
       </div>
-      <p class="text-slate-400 text-sm mb-6 max-w-2xl mx-auto text-center">Competitive fighter rankings by wins, KDR, and points. Sort by column to compare.</p>
+      <p class="text-slate-400 text-sm mb-6 max-w-2xl mx-auto text-center">Competitive fighter rankings by wins, KDR, and TKOs. Sort by column to compare.</p>
       <div class="overflow-x-auto rounded-xl border border-slate-700/50 bg-surfaceLight/50">
         <table class="w-full text-left text-sm" id="leaderboard-table">
           <thead class="bg-blood/20 text-accent/90 uppercase tracking-wider text-xs">
@@ -261,7 +270,6 @@
               <th class="px-4 py-3 cursor-pointer hover:bg-blood/30" data-sort="losses">Losses</th>
               <th class="px-4 py-3 cursor-pointer hover:bg-blood/30" data-sort="kdr">KDR</th>
               <th class="px-4 py-3 cursor-pointer hover:bg-blood/30" data-sort="tkos">TKOs</th>
-              <th class="px-4 py-3 cursor-pointer hover:bg-blood/30" data-sort="points">Points</th>
             </tr>
           </thead>
           <tbody id="leaderboard-body" class="text-slate-300"></tbody>
@@ -390,7 +398,7 @@
         });
         var order = Object.keys(byRound).map(Number).sort(function (a, b) { return a - b; });
         lineupEl.innerHTML = '';
-        var ROUND_LABELS = { 1: 'Quarterfinals', 2: 'Semifinals', 3: 'Final' };
+        var ROUND_LABELS = { 1: 'Prelims', 2: 'Final' };
         order.forEach(function (roundOrder) {
           var roundMatches = byRound[roundOrder];
           var roundLabel = ROUND_LABELS[roundOrder] || ('Round ' + roundOrder);
@@ -422,11 +430,9 @@
       }
 
       var defaultMatches = [
-        { id: 'q1', round: 'Quarterfinal 1', round_order: 1, fighter1: 'Fighter One', fighter2: 'Fighter Five', winner: 'Fighter One' },
-        { id: 'q2', round: 'Quarterfinal 2', round_order: 1, fighter1: 'Fighter Two', fighter2: 'Fighter Four', winner: '' },
-        { id: 's1', round: 'Semifinal 1', round_order: 2, fighter1: 'Fighter One', fighter2: 'TBD', winner: '' },
-        { id: 's2', round: 'Semifinal 2', round_order: 2, fighter1: 'TBD', fighter2: 'TBD', winner: '' },
-        { id: 'final', round: 'Final', round_order: 3, fighter1: 'TBD', fighter2: 'TBD', winner: '' }
+        { id: 'p1', round: 'Prelim 1', round_order: 1, fighter1: 'Fighter One', fighter2: 'Fighter Five', winner: 'Fighter One' },
+        { id: 'p2', round: 'Prelim 2', round_order: 1, fighter1: 'Fighter Two', fighter2: 'Fighter Four', winner: '' },
+        { id: 'final', round: 'Final', round_order: 2, fighter1: 'TBD', fighter2: 'TBD', winner: '' }
       ];
       Promise.all([
         fetch('matches.json').then(function (r) { return r.ok ? r.json() : null; }).then(function (data) { return data && data.matches && data.matches.length ? data.matches : defaultMatches; }).catch(function () { return defaultMatches; }),
@@ -555,7 +561,7 @@
       function renderLeaderboard(entries) {
         var tbody = document.getElementById('leaderboard-body');
         if (!tbody || !entries || !entries.length) return;
-        var sorted = entries.slice().sort(function (a, b) { return (b.points || 0) - (a.points || 0); });
+        var sorted = entries.slice().sort(function (a, b) { return (b.wins || 0) - (a.wins || 0); });
         tbody.innerHTML = sorted.map(function (e, i) {
           return '<tr class="border-t border-slate-700/50 hover:bg-slate-700/20">' +
             '<td class="px-4 py-3 text-accent font-medium">' + (i + 1) + '</td>' +
@@ -563,13 +569,12 @@
             '<td class="px-4 py-3">' + escapeHtml(String(e.wins != null ? e.wins : '')) + '</td>' +
             '<td class="px-4 py-3">' + escapeHtml(String(e.losses != null ? e.losses : '')) + '</td>' +
             '<td class="px-4 py-3">' + escapeHtml(String(e.kdr != null ? e.kdr : '')) + '</td>' +
-            '<td class="px-4 py-3">' + escapeHtml(String(e.tkos != null ? e.tkos : '')) + '</td>' +
-            '<td class="px-4 py-3 text-accent font-medium">' + escapeHtml(String(e.points != null ? e.points : '')) + '</td></tr>';
+            '<td class="px-4 py-3">' + escapeHtml(String(e.tkos != null ? e.tkos : '')) + '</td></tr>';
         }).join('');
       }
       function sortLeaderboard(key) {
         var sorted = leaderboardData.slice();
-        if (key === 'rank' || key === 'points') sorted.sort(function (a, b) { return (b.points || 0) - (a.points || 0); });
+        if (key === 'rank' || key === 'wins') sorted.sort(function (a, b) { return (b.wins || 0) - (a.wins || 0); });
         else if (key === 'name') sorted.sort(function (a, b) { return (a.name || '').localeCompare(b.name || ''); });
         else if (key === 'wins') sorted.sort(function (a, b) { return (b.wins || 0) - (a.wins || 0); });
         else if (key === 'losses') sorted.sort(function (a, b) { return (b.losses || 0) - (a.losses || 0); });
@@ -641,6 +646,16 @@
       }).catch(function () {});
 
       // Streams
+      // A Spot (setup/gear for the week)
+      fetch('config.json').then(function (r) { return r.ok ? r.json() : null; }).then(function (data) {
+        var el = document.getElementById('a-spot-content');
+        if (el && data && data.a_spot) {
+          var w = (data.a_spot.week_label || '').trim();
+          var s = (data.a_spot.setup_gear || '').trim();
+          el.innerHTML = (w ? '<p class="text-accent font-semibold mb-3">' + escapeHtml(w) + '</p>' : '') + (s ? '<p class="text-slate-300 whitespace-pre-wrap">' + escapeHtml(s) + '</p>' : '<p class="text-slate-500">No setup/gear set for this week. Edit in Pages CMS → Event config → A Spot.</p>');
+        }
+      }).catch(function () {});
+
       fetch('config.json').then(function (r) { return r.ok ? r.json() : null; }).then(function (data) {
         var el = document.getElementById('streams-list');
         if (!el) return;

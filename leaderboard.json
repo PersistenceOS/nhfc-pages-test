@@ -1,9 +1,9 @@
 {
   "entries": [
-    { "name": "Fighter Three", "wins": 10, "losses": 0, "kdr": "2.5", "tkos": 6, "points": 120 },
-    { "name": "Fighter Two", "wins": 7, "losses": 2, "kdr": "1.8", "tkos": 3, "points": 85 },
-    { "name": "Grixis105", "wins": 8, "losses": 2, "kdr": "1.6", "tkos": 4, "points": 78 },
-    { "name": "Fighter One", "wins": 5, "losses": 3, "kdr": "1.2", "tkos": 2, "points": 52 },
-    { "name": "Fighter Four", "wins": 4, "losses": 4, "kdr": "1.0", "tkos": 1, "points": 40 }
+    { "name": "Fighter Three", "wins": 10, "losses": 0, "kdr": "2.5", "tkos": 6 },
+    { "name": "Fighter Two", "wins": 7, "losses": 2, "kdr": "1.8", "tkos": 3 },
+    { "name": "Grixis105", "wins": 8, "losses": 2, "kdr": "1.6", "tkos": 4 },
+    { "name": "Fighter One", "wins": 5, "losses": 3, "kdr": "1.2", "tkos": 2 },
+    { "name": "Fighter Four", "wins": 4, "losses": 4, "kdr": "1.0", "tkos": 1 }
   ]
 }

@@ -76,6 +76,57 @@
       border: 1px solid rgba(251, 191, 36, 0.5);
     }
     .btn-next.secondary:hover { background: rgba(251, 191, 36, 0.1); }
+
+    /* Match reveal animations for stream-friendly transitions */
+    @keyframes matchRevealTitle {
+      from { opacity: 0; transform: translateY(-12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes matchRevealCardLeft {
+      from { opacity: 0; transform: translateX(-40px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+    @keyframes matchRevealCardRight {
+      from { opacity: 0; transform: translateX(40px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+    @keyframes matchRevealVs {
+      from { opacity: 0; transform: scale(0.6); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    @keyframes matchRevealFade {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    .match-reveal-title {
+      animation: matchRevealTitle 0.5s ease-out forwards;
+      opacity: 0;
+    }
+    .match-reveal-card-left {
+      animation: matchRevealCardLeft 0.5s ease-out forwards;
+      opacity: 0;
+      animation-delay: 0.15s;
+    }
+    .match-reveal-vs {
+      animation: matchRevealVs 0.4s ease-out forwards;
+      opacity: 0;
+      animation-delay: 0.35s;
+    }
+    .match-reveal-card-right {
+      animation: matchRevealCardRight 0.5s ease-out forwards;
+      opacity: 0;
+      animation-delay: 0.5s;
+    }
+    .match-reveal-result {
+      animation: matchRevealFade 0.5s ease-out forwards;
+      opacity: 0;
+      animation-delay: 0.7s;
+    }
+    .match-reveal-actions {
+      animation: matchRevealFade 0.5s ease-out forwards;
+      opacity: 0;
+      animation-delay: 0.9s;
+    }
   </style>
 </head>
 <body class="bg-surface text-slate-100 min-h-screen antialiased">
@@ -204,25 +255,29 @@
 
         root.innerHTML = '';
         var roundTitle = document.createElement('h1');
-        roundTitle.className = 'text-xl font-semibold text-slate-300 mb-8';
+        roundTitle.className = 'text-xl font-semibold text-slate-300 mb-8 match-reveal-title';
         roundTitle.textContent = match.round || 'Match';
         root.appendChild(roundTitle);
 
         var flex = document.createElement('div');
         flex.className = 'flex flex-wrap items-center justify-center gap-6 sm:gap-10';
-        flex.appendChild(renderFighterCard(match.fighter1, r1, f1Winner, canSelect, selectWinner));
+        var card1 = renderFighterCard(match.fighter1, r1, f1Winner, canSelect, selectWinner);
+        card1.classList.add('match-reveal-card-left');
+        flex.appendChild(card1);
         var vs = document.createElement('div');
-        vs.className = 'vs-badge';
+        vs.className = 'vs-badge match-reveal-vs';
         vs.textContent = 'VS';
         flex.appendChild(vs);
-        flex.appendChild(renderFighterCard(match.fighter2, r2, f2Winner, canSelect, selectWinner));
+        var card2 = renderFighterCard(match.fighter2, r2, f2Winner, canSelect, selectWinner);
+        card2.classList.add('match-reveal-card-right');
+        flex.appendChild(card2);
         root.appendChild(flex);
 
         if (winner) {
           var winnerEntry = findFighter(winner, roster);
           var winnerDisplay = (winnerEntry && winnerEntry.osrs_name) ? winnerEntry.osrs_name : winner;
           var result = document.createElement('p');
-          result.className = 'mt-6 text-slate-400 text-sm';
+          result.className = 'mt-6 text-slate-400 text-sm match-reveal-result';
           result.innerHTML = 'Winner: <span class="text-accent font-semibold">' + escapeHtml(winnerDisplay) + '</span>';
           if (storedWinner && !(match.winner || '').trim()) {
             result.innerHTML += ' <span class="text-slate-500 text-xs">(saved in browser — update matches.json to save permanently)</span>';
@@ -230,7 +285,7 @@
           root.appendChild(result);
         } else if (canSelect) {
           var hint = document.createElement('p');
-          hint.className = 'mt-4 text-slate-500 text-sm';
+          hint.className = 'mt-4 text-slate-500 text-sm match-reveal-result';
           hint.textContent = 'Click a fighter once to select winner';
           root.appendChild(hint);
         }
@@ -240,7 +295,7 @@
         for (var i = 0; i < ordered.length; i++) { if ((ordered[i].id || '') === matchIdForStorage) { currentIndex = i; break; } }
         var nextMatch = currentIndex >= 0 && currentIndex < ordered.length - 1 ? ordered[currentIndex + 1] : null;
         var nextWrap = document.createElement('div');
-        nextWrap.className = 'mt-10 flex flex-col sm:flex-row items-center justify-center gap-4';
+        nextWrap.className = 'mt-10 flex flex-col sm:flex-row items-center justify-center gap-4 match-reveal-actions';
         if (nextMatch) {
           var nextLink = document.createElement('a');
           nextLink.href = 'match.html?id=' + encodeURIComponent(nextMatch.id || '');

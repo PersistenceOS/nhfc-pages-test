@@ -119,7 +119,7 @@ When you set `winner` for a match, the main page shows “Winner: [name]” on t
 }
 ```
 
-No build step: update the JSON and refresh. For semifinals/final, you can also set `fighter1`/`fighter2` to the advancing fighters, then set `winner` when that match finishes.
+No build step: update the JSON and refresh. For prelims/final, you can also set `fighter1`/`fighter2` to the advancing fighters, then set `winner` when that match finishes.
 
 ## GitHub Pages
 

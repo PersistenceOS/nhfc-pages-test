@@ -1,41 +1,25 @@
 {
   "matches": [
     {
-      "id": "q1",
-      "round": "Quarterfinal 1",
+      "id": "p1",
+      "round": "Prelim 1",
       "round_order": 1,
       "fighter1": "Fighter One",
       "fighter2": "Fighter Five",
       "winner": "Fighter One"
     },
     {
-      "id": "q2",
-      "round": "Quarterfinal 2",
+      "id": "p2",
+      "round": "Prelim 2",
       "round_order": 1,
       "fighter1": "Fighter Two",
       "fighter2": "Fighter Four",
       "winner": ""
     },
     {
-      "id": "s1",
-      "round": "Semifinal 1",
-      "round_order": 2,
-      "fighter1": "Fighter One",
-      "fighter2": "TBD",
-      "winner": ""
-    },
-    {
-      "id": "s2",
-      "round": "Semifinal 2",
-      "round_order": 2,
-      "fighter1": "TBD",
-      "fighter2": "TBD",
-      "winner": ""
-    },
-    {
       "id": "final",
       "round": "Final",
-      "round_order": 3,
+      "round_order": 2,
       "fighter1": "TBD",
       "fighter2": "TBD",
       "winner": ""

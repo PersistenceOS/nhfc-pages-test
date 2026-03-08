@@ -5,6 +5,10 @@
     "round_duration_min": 15,
     "championship_rounds": 5
   },
+  "a_spot": {
+    "week_label": "Week 1",
+    "setup_gear": "Setup and gear rules for this week. Edit in Pages CMS (Event config → A Spot)."
+  },
   "streams": {
     "kick": "vanc",
     "twitch": ["vanc", "NHFC_Live"],
