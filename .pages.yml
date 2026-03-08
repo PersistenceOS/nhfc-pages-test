@@ -155,18 +155,25 @@ content:
         list: true
         fields:
           - name: name
-            label: Fighter name
+            label: Player name
             type: string
             required: true
+          - name: bracket
+            label: Preferred bracket
+            type: string
+            description: MAIN, ZERK, or PURE
           - name: wins
-            label: Wins
+            label: W (Tournament wins)
             type: number
           - name: losses
-            label: Losses
+            label: L (Losses)
             type: number
           - name: kdr
-            label: KDR
+            label: KDR (Kill/Death ratio)
             type: string
+          - name: skill_level
+            label: Player skill level
+            type: number
           - name: tkos
             label: TKOs
             type: number

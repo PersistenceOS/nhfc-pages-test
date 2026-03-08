@@ -259,21 +259,81 @@
       <div class="section-head">
         <h2 class="text-xl sm:text-2xl font-semibold text-slate-200">Leaderboard</h2>
       </div>
-      <p class="text-slate-400 text-sm mb-6 max-w-2xl mx-auto text-center">Competitive fighter rankings by wins, KDR, and TKOs. Sort by column to compare.</p>
+      <p class="text-slate-400 text-sm mb-4 max-w-2xl mx-auto text-center">W / L / KDR by bracket. Filter and sort for stream-ready rankings.</p>
+      <div id="leaderboard-filters" class="flex flex-wrap justify-center gap-2 mb-4">
+        <button type="button" class="leaderboard-filter px-4 py-2 rounded-lg text-sm font-medium border transition-colors bg-blood/30 border-blood/60 text-white" data-bracket="">All</button>
+        <button type="button" class="leaderboard-filter px-4 py-2 rounded-lg text-sm font-medium border border-slate-600 text-slate-400 hover:border-accent/50 hover:text-accent" data-bracket="MAIN">Main</button>
+        <button type="button" class="leaderboard-filter px-4 py-2 rounded-lg text-sm font-medium border border-slate-600 text-slate-400 hover:border-accent/50 hover:text-accent" data-bracket="ZERK">Zerk</button>
+        <button type="button" class="leaderboard-filter px-4 py-2 rounded-lg text-sm font-medium border border-slate-600 text-slate-400 hover:border-accent/50 hover:text-accent" data-bracket="PURE">Pure</button>
+      </div>
+      <div id="leaderboard-spotlight" class="mb-6 rounded-xl border border-blood/40 bg-blood/10 p-4 flex flex-wrap justify-center items-center gap-6 text-base sm:text-lg"></div>
       <div class="overflow-x-auto rounded-xl border border-slate-700/50 bg-surfaceLight/50">
-        <table class="w-full text-left text-sm" id="leaderboard-table">
-          <thead class="bg-blood/20 text-accent/90 uppercase tracking-wider text-xs">
+        <table class="w-full text-left text-sm sm:text-base" id="leaderboard-table">
+          <thead class="bg-blood/20 text-accent/90 uppercase tracking-wider text-xs sm:text-sm">
             <tr>
-              <th class="px-4 py-3 cursor-pointer hover:bg-blood/30" data-sort="rank">Rank</th>
-              <th class="px-4 py-3 cursor-pointer hover:bg-blood/30" data-sort="name">Fighter</th>
-              <th class="px-4 py-3 cursor-pointer hover:bg-blood/30" data-sort="wins">Wins</th>
-              <th class="px-4 py-3 cursor-pointer hover:bg-blood/30" data-sort="losses">Losses</th>
-              <th class="px-4 py-3 cursor-pointer hover:bg-blood/30" data-sort="kdr">KDR</th>
-              <th class="px-4 py-3 cursor-pointer hover:bg-blood/30" data-sort="tkos">TKOs</th>
+              <th class="px-3 sm:px-4 py-3 cursor-pointer hover:bg-blood/30" data-sort="rank">Rank</th>
+              <th class="px-3 sm:px-4 py-3 cursor-pointer hover:bg-blood/30" data-sort="name">Fighter</th>
+              <th class="px-3 sm:px-4 py-3 cursor-pointer hover:bg-blood/30 hidden sm:table-cell">Bracket</th>
+              <th class="px-3 sm:px-4 py-3 cursor-pointer hover:bg-blood/30" data-sort="wins">W</th>
+              <th class="px-3 sm:px-4 py-3 cursor-pointer hover:bg-blood/30" data-sort="losses">L</th>
+              <th class="px-3 sm:px-4 py-3 cursor-pointer hover:bg-blood/30 bg-blood/30 text-blood font-semibold" data-sort="kdr">KDR</th>
+              <th class="px-3 sm:px-4 py-3 cursor-pointer hover:bg-blood/30" data-sort="tkos">TKOs</th>
             </tr>
           </thead>
           <tbody id="leaderboard-body" class="text-slate-300"></tbody>
         </table>
+      </div>
+    </section>
+
+    <section id="rules-faq" class="mt-20 pt-12 border-t border-slate-700/50">
+      <div class="section-head">
+        <h2 class="text-xl sm:text-2xl font-semibold text-slate-200">Rankings & Viewer FAQ</h2>
+      </div>
+      <p class="text-slate-400 text-sm mb-8 max-w-2xl mx-auto text-center">How the leaderboard works and answers to common questions.</p>
+
+      <div class="max-w-3xl mx-auto space-y-10">
+        <div class="rounded-xl border border-slate-700/50 bg-surfaceLight/50 p-6">
+          <h3 class="text-blood font-semibold text-lg mb-3">How rankings work (no points)</h3>
+          <p class="text-slate-300 text-sm mb-4">NHFC does not use a points system. Fighters are ranked by raw stats:</p>
+          <ul class="text-slate-400 text-sm space-y-2 list-disc list-inside">
+            <li><strong class="text-slate-300">W</strong> — Tournament wins (matches won).</li>
+            <li><strong class="text-slate-300">L</strong> — Losses (matches lost).</li>
+            <li><strong class="text-blood font-medium">KDR</strong> — Kill/Death ratio (kills ÷ deaths). Higher is better.</li>
+            <li><strong class="text-slate-300">TKOs</strong> — Technical knockouts (if tracked).</li>
+          </ul>
+          <p class="text-slate-400 text-sm mt-3">Use the leaderboard filters (All, Main, Zerk, Pure) to see rankings by bracket. Click column headers to sort by W, L, or KDR.</p>
+        </div>
+
+        <div class="rounded-xl border border-slate-700/50 bg-surfaceLight/50 p-6">
+          <h3 class="text-accent font-semibold text-lg mb-3">Brackets: Main, Zerk, Pure</h3>
+          <p class="text-slate-400 text-sm">Fighters compete in build-based brackets. <strong class="text-slate-300">Main</strong> — main accounts; <strong class="text-slate-300">Zerk</strong> — zerker builds; <strong class="text-slate-300">Pure</strong> — pure builds. Each bracket has its own leaderboard view.</p>
+        </div>
+
+        <div class="rounded-xl border border-slate-700/50 bg-surfaceLight/50 p-6">
+          <h3 class="text-accent font-semibold text-lg mb-3">Viewer FAQ</h3>
+          <dl class="space-y-4 text-sm">
+            <div>
+              <dt class="font-semibold text-slate-200 mb-1">When are events?</dt>
+              <dd class="text-slate-400">Check the Event info at the top and the Upcoming Fights section. Times are listed per event.</dd>
+            </div>
+            <div>
+              <dt class="font-semibold text-slate-200 mb-1">Where do I watch?</dt>
+              <dd class="text-slate-400">See the Streams & Platforms section and the event stream links in the header. Tune in on the listed platforms.</dd>
+            </div>
+            <div>
+              <dt class="font-semibold text-slate-200 mb-1">How do I apply to fight?</dt>
+              <dd class="text-slate-400">Use the Fighter Application link below. Submit your in-game name, build, experience, and contact details.</dd>
+            </div>
+            <div>
+              <dt class="font-semibold text-slate-200 mb-1">How is a match won?</dt>
+              <dd class="text-slate-400">Matches are decided by round wins or by the rules set for that event (e.g. best-of rounds). The stream and event info will state the format.</dd>
+            </div>
+            <div>
+              <dt class="font-semibold text-slate-200 mb-1">How can I volunteer or sponsor?</dt>
+              <dd class="text-slate-400">Use the Volunteer application for staff roles. For sponsorship, reach out via the Discord or contact listed on the site.</dd>
+            </div>
+          </dl>
+        </div>
       </div>
     </section>
 
@@ -556,39 +616,80 @@
         return d.innerHTML;
       }
 
-      // Leaderboard
-      var leaderboardData = [];
+      var leaderboardRaw = [];
+      var leaderboardFilter = '';
+      var leaderboardSortKey = 'wins';
+
+      function getFiltered() {
+        if (!leaderboardFilter) return leaderboardRaw.slice();
+        return leaderboardRaw.filter(function (e) { return (e.bracket || '').toUpperCase() === leaderboardFilter; });
+      }
+
+      function sortEntries(list, key) {
+        var arr = list.slice();
+        if (key === 'rank' || key === 'wins') arr.sort(function (a, b) { return (b.wins || 0) - (a.wins || 0); });
+        else if (key === 'name') arr.sort(function (a, b) { return (a.name || '').localeCompare(b.name || ''); });
+        else if (key === 'losses') arr.sort(function (a, b) { return (b.losses || 0) - (a.losses || 0); });
+        else if (key === 'kdr') arr.sort(function (a, b) { return (parseFloat(b.kdr) || 0) - (parseFloat(a.kdr) || 0); });
+        else if (key === 'tkos') arr.sort(function (a, b) { return (b.tkos || 0) - (a.tkos || 0); });
+        return arr;
+      }
+
       function renderLeaderboard(entries) {
+        var sorted = sortEntries(entries, leaderboardSortKey);
         var tbody = document.getElementById('leaderboard-body');
-        if (!tbody || !entries || !entries.length) return;
-        var sorted = entries.slice().sort(function (a, b) { return (b.wins || 0) - (a.wins || 0); });
-        tbody.innerHTML = sorted.map(function (e, i) {
-          return '<tr class="border-t border-slate-700/50 hover:bg-slate-700/20">' +
-            '<td class="px-4 py-3 text-accent font-medium">' + (i + 1) + '</td>' +
-            '<td class="px-4 py-3 font-medium">' + escapeHtml(e.name || '') + '</td>' +
-            '<td class="px-4 py-3">' + escapeHtml(String(e.wins != null ? e.wins : '')) + '</td>' +
-            '<td class="px-4 py-3">' + escapeHtml(String(e.losses != null ? e.losses : '')) + '</td>' +
-            '<td class="px-4 py-3">' + escapeHtml(String(e.kdr != null ? e.kdr : '')) + '</td>' +
-            '<td class="px-4 py-3">' + escapeHtml(String(e.tkos != null ? e.tkos : '')) + '</td></tr>';
-        }).join('');
+        var spotlight = document.getElementById('leaderboard-spotlight');
+        if (tbody) {
+          tbody.innerHTML = sorted.length ? sorted.map(function (e, i) {
+            var bracket = (e.bracket || '').toUpperCase() || '—';
+            var kdrVal = e.kdr != null && e.kdr !== '' ? escapeHtml(String(e.kdr)) : '—';
+            return '<tr class="border-t border-slate-700/50 hover:bg-slate-700/20">' +
+              '<td class="px-3 sm:px-4 py-3 text-accent font-medium">' + (i + 1) + '</td>' +
+              '<td class="px-3 sm:px-4 py-3 font-medium">' + escapeHtml(e.name || '') + '</td>' +
+              '<td class="px-3 sm:px-4 py-3 text-slate-400 hidden sm:table-cell">' + escapeHtml(bracket) + '</td>' +
+              '<td class="px-3 sm:px-4 py-3">' + escapeHtml(String(e.wins != null ? e.wins : '')) + '</td>' +
+              '<td class="px-3 sm:px-4 py-3">' + escapeHtml(String(e.losses != null ? e.losses : '')) + '</td>' +
+              '<td class="px-3 sm:px-4 py-3 text-blood font-semibold">' + kdrVal + '</td>' +
+              '<td class="px-3 sm:px-4 py-3">' + escapeHtml(String(e.tkos != null ? e.tkos : '')) + '</td></tr>';
+          }).join('') : '<tr><td colspan="7" class="px-4 py-8 text-center text-slate-500">No fighters in this bracket.</td></tr>';
+        }
+        if (spotlight && sorted.length) {
+          var top3 = sorted.slice(0, 3);
+          spotlight.innerHTML = '<span class="text-slate-500 uppercase text-xs tracking-wider">Top 3</span>' + top3.map(function (e, i) {
+            var medals = ['🥇', '🥈', '🥉'];
+            return '<span class="inline-flex items-center gap-2"><span class="text-accent">' + medals[i] + '</span> <span class="font-medium text-slate-200">' + escapeHtml(e.name || '') + '</span> <span class="text-blood font-semibold">KDR ' + escapeHtml(String(e.kdr != null ? e.kdr : '0')) + '</span></span>';
+          }).join('<span class="text-slate-600">|</span>');
+          spotlight.style.display = 'flex';
+        } else if (spotlight) {
+          spotlight.style.display = 'none';
+        }
       }
+
+      function applyFilter(bracket) {
+        leaderboardFilter = bracket;
+        var buttons = document.querySelectorAll('#leaderboard-filters .leaderboard-filter');
+        buttons.forEach(function (btn) {
+          var isActive = (btn.getAttribute('data-bracket') || '') === bracket;
+          btn.className = 'leaderboard-filter px-4 py-2 rounded-lg text-sm font-medium border transition-colors ' +
+            (isActive ? 'bg-blood/30 border-blood/60 text-white' : 'border-slate-600 text-slate-400 hover:border-accent/50 hover:text-accent');
+        });
+        renderLeaderboard(getFiltered());
+      }
+
       function sortLeaderboard(key) {
-        var sorted = leaderboardData.slice();
-        if (key === 'rank' || key === 'wins') sorted.sort(function (a, b) { return (b.wins || 0) - (a.wins || 0); });
-        else if (key === 'name') sorted.sort(function (a, b) { return (a.name || '').localeCompare(b.name || ''); });
-        else if (key === 'wins') sorted.sort(function (a, b) { return (b.wins || 0) - (a.wins || 0); });
-        else if (key === 'losses') sorted.sort(function (a, b) { return (b.losses || 0) - (a.losses || 0); });
-        else if (key === 'kdr') sorted.sort(function (a, b) { return parseFloat(b.kdr) - parseFloat(a.kdr); });
-        else if (key === 'tkos') sorted.sort(function (a, b) { return (b.tkos || 0) - (a.tkos || 0); });
-        leaderboardData = sorted;
-        renderLeaderboard(leaderboardData);
+        leaderboardSortKey = key;
+        renderLeaderboard(getFiltered());
       }
+
       fetch('leaderboard.json').then(function (r) { return r.ok ? r.json() : null; }).then(function (data) {
-        leaderboardData = (data && data.entries) ? data.entries : [];
-        renderLeaderboard(leaderboardData);
+        leaderboardRaw = (data && data.entries) ? data.entries : [];
+        applyFilter(leaderboardFilter);
         var table = document.getElementById('leaderboard-table');
         if (table) table.querySelectorAll('th[data-sort]').forEach(function (th) {
           th.addEventListener('click', function () { sortLeaderboard(th.getAttribute('data-sort')); });
+        });
+        document.querySelectorAll('#leaderboard-filters .leaderboard-filter').forEach(function (btn) {
+          btn.addEventListener('click', function () { applyFilter(btn.getAttribute('data-bracket') || ''); });
         });
       }).catch(function () {});
 
