@@ -13,5 +13,6 @@
     "kick": "vanc",
     "twitch": ["vanc", "NHFC_Live"],
     "discord": "https://discord.gg/your-invite"
-  }
+  },
+  "stream_host_key": ""
 }

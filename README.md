@@ -136,6 +136,16 @@ Your team can then update the event and roster through the CMS without editing J
 
 ---
 
+## Stream host mode (private)
+
+For live stream hosting, a **host-only** view is available. It is invisible to normal visitors.
+
+1. In **Event config** (Pages CMS or `config.json`), set **Stream host key** to a secret value (e.g. a word only your crew knows). Leave it empty to disable.
+2. Open the site with that key in the URL: `index.html?stream=YOUR_SECRET_KEY`. Only this URL shows the host bar.
+3. The bar at the bottom lets you jump to **Lineup**, **Leaderboard**, **A Spot**, **Upcoming**, **Sponsors**. **Solo view** shows only the selected section (hide nav/footer and other sections) for clean OBS capture. **Full page** exits solo view.
+
+Do not share the `?stream=...` URL with viewers.
+
 ## Project overview
 
 | What | Where |

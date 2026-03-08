@@ -2,26 +2,50 @@
   "matches": [
     {
       "id": "p1",
-      "round": "Prelim 1",
+      "round": "Fight 1",
       "round_order": 1,
-      "fighter1": "Fighter One",
-      "fighter2": "Fighter Five",
-      "winner": "Fighter One"
-    },
-    {
-      "id": "p2",
-      "round": "Prelim 2",
-      "round_order": 1,
-      "fighter1": "Fighter Two",
-      "fighter2": "Fighter Four",
+      "fighter1": "BUZZERK",
+      "fighter2": "IFINESSED",
       "winner": ""
     },
     {
-      "id": "final",
-      "round": "Final",
+      "id": "p2",
+      "round": "Fight 2",
+      "round_order": 1,
+      "fighter1": "FRANKIE",
+      "fighter2": "POKEFLEX",
+      "winner": ""
+    },
+    {
+      "id": "p3",
+      "round": "Fight 3",
+      "round_order": 1,
+      "fighter1": "SEB",
+      "fighter2": "GIEZEY",
+      "winner": ""
+    },
+    {
+      "id": "p4",
+      "round": "Fight 4",
+      "round_order": 1,
+      "fighter1": "BUTTERMAGE",
+      "fighter2": "NOYCE",
+      "winner": ""
+    },
+    {
+      "id": "p5",
+      "round": "Fight 5",
+      "round_order": 1,
+      "fighter1": "SENTROXIDE",
+      "fighter2": "RUSTY TOM",
+      "winner": ""
+    },
+    {
+      "id": "main",
+      "round": "Main Event",
       "round_order": 2,
-      "fighter1": "TBD",
-      "fighter2": "TBD",
+      "fighter1": "MRNOSLEEP",
+      "fighter2": "TPAPASLICE",
       "winner": ""
     }
   ]

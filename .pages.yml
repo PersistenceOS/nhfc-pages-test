@@ -142,6 +142,10 @@ content:
           - name: discord
             label: Discord invite URL
             type: string
+      - name: stream_host_key
+        label: Stream host key (private)
+        type: string
+        description: Optional. If set, only URLs with ?stream=THIS_KEY show stream view. Leave empty to disable. Do not share.
 
   - name: leaderboard
     label: Leaderboard

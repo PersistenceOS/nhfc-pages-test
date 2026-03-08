@@ -399,6 +399,29 @@
     <span class="text-accent/80 font-medium">NHFC</span> Roster · Managed with Pages CMS
   </footer>
 
+  <div id="stream-host-bar" class="stream-host-bar hidden fixed bottom-0 left-0 right-0 z-50 bg-surfaceLight/95 border-t border-blood/50 px-4 py-2 flex flex-wrap items-center justify-center gap-2 text-sm">
+    <span class="text-slate-500 mr-2">Host:</span>
+    <button type="button" class="stream-jump px-3 py-1.5 rounded border border-slate-600 text-slate-300 hover:border-accent/50 hover:text-accent" data-section="event-lineup">Lineup</button>
+    <button type="button" class="stream-jump px-3 py-1.5 rounded border border-slate-600 text-slate-300 hover:border-accent/50 hover:text-accent" data-section="leaderboard">Leaderboard</button>
+    <button type="button" class="stream-jump px-3 py-1.5 rounded border border-slate-600 text-slate-300 hover:border-accent/50 hover:text-accent" data-section="a-spot">A Spot</button>
+    <button type="button" class="stream-jump px-3 py-1.5 rounded border border-slate-600 text-slate-300 hover:border-accent/50 hover:text-accent" data-section="upcoming">Upcoming</button>
+    <button type="button" class="stream-jump px-3 py-1.5 rounded border border-slate-600 text-slate-300 hover:border-accent/50 hover:text-accent" data-section="sponsors">Sponsors</button>
+    <span class="w-px h-4 bg-slate-600 mx-1"></span>
+    <label class="flex items-center gap-2 text-slate-400 cursor-pointer">
+      <input type="checkbox" id="stream-solo-toggle" class="rounded border-slate-600 text-accent focus:ring-accent/50">
+      <span>Solo view</span>
+    </label>
+    <button type="button" id="stream-full-page" class="px-3 py-1.5 rounded border border-slate-600 text-slate-400 hover:border-accent/50 hover:text-accent">Full page</button>
+  </div>
+
+  <style>
+    body.stream-solo-view .hero,
+    body.stream-solo-view nav,
+    body.stream-solo-view footer { display: none !important; }
+    body.stream-solo-view main section:not(.stream-solo-active) { display: none !important; }
+    body.stream-solo-view main section.stream-solo-active { display: block !important; }
+  </style>
+
   <script>
     (function () {
       var treeEl = document.getElementById('roster-tree');
@@ -764,17 +787,55 @@
 
       fetch('config.json').then(function (r) { return r.ok ? r.json() : null; }).then(function (data) {
         var el = document.getElementById('streams-list');
-        if (!el) return;
-        var streams = (data && data.streams) ? data.streams : {};
-        var links = [];
-        if (streams.kick) links.push({ label: 'Kick', name: streams.kick, url: 'https://kick.com/' + encodeURIComponent(streams.kick) });
-        if (streams.twitch && streams.twitch.length) streams.twitch.forEach(function (u) {
-          links.push({ label: 'Twitch', name: u, url: 'https://www.twitch.tv/' + encodeURIComponent(u) });
-        });
-        if (streams.discord) links.push({ label: 'Discord', name: 'Community', url: streams.discord });
-        el.innerHTML = links.map(function (l) {
-          return '<a href="' + escapeHtml(l.url) + '" target="_blank" rel="noopener" class="px-5 py-3 rounded-lg bg-surfaceLight border border-slate-600/50 hover:border-accent/50 text-slate-200 font-medium transition-colors">' + escapeHtml(l.label) + ': ' + escapeHtml(l.name) + '</a>';
-        }).join('');
+        if (el && data && data.streams) {
+          var streams = data.streams;
+          var links = [];
+          if (streams.kick) links.push({ label: 'Kick', name: streams.kick, url: 'https://kick.com/' + encodeURIComponent(streams.kick) });
+          if (streams.twitch && streams.twitch.length) streams.twitch.forEach(function (u) {
+            links.push({ label: 'Twitch', name: u, url: 'https://www.twitch.tv/' + encodeURIComponent(u) });
+          });
+          if (streams.discord) links.push({ label: 'Discord', name: 'Community', url: streams.discord });
+          el.innerHTML = links.map(function (l) {
+            return '<a href="' + escapeHtml(l.url) + '" target="_blank" rel="noopener" class="px-5 py-3 rounded-lg bg-surfaceLight border border-slate-600/50 hover:border-accent/50 text-slate-200 font-medium transition-colors">' + escapeHtml(l.label) + ': ' + escapeHtml(l.name) + '</a>';
+          }).join('');
+        }
+        var key = (data && data.stream_host_key) ? String(data.stream_host_key).trim() : '';
+        var params = new URLSearchParams(window.location.search);
+        var streamParam = params.get('stream') || '';
+        if (key && streamParam === key) {
+          var bar = document.getElementById('stream-host-bar');
+          var soloToggle = document.getElementById('stream-solo-toggle');
+          var fullBtn = document.getElementById('stream-full-page');
+          if (bar) bar.classList.remove('hidden');
+          var streamSections = ['event-lineup', 'leaderboard', 'a-spot', 'upcoming', 'sponsors'];
+          var currentSectionId = 'event-lineup';
+          function showSolo(sectionId) {
+            currentSectionId = sectionId || currentSectionId;
+            streamSections.forEach(function (id) {
+              var s = document.getElementById(id);
+              if (s) s.classList.toggle('stream-solo-active', id === currentSectionId);
+            });
+            document.body.classList.toggle('stream-solo-view', soloToggle && soloToggle.checked);
+          }
+          function jumpTo(sectionId) {
+            var s = document.getElementById(sectionId);
+            if (s) s.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            currentSectionId = sectionId;
+            if (soloToggle && soloToggle.checked) showSolo(sectionId);
+          }
+          document.querySelectorAll('.stream-jump').forEach(function (btn) {
+            btn.addEventListener('click', function () { jumpTo(btn.getAttribute('data-section') || 'event-lineup'); });
+          });
+          if (soloToggle) soloToggle.addEventListener('change', function () { showSolo(); });
+          if (fullBtn) fullBtn.addEventListener('click', function () {
+            if (soloToggle) soloToggle.checked = false;
+            document.body.classList.remove('stream-solo-view');
+            streamSections.forEach(function (id) {
+              var s = document.getElementById(id);
+              if (s) s.classList.remove('stream-solo-active');
+            });
+          });
+        }
       }).catch(function () {});
     })();
   </script>
