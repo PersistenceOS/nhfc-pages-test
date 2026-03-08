@@ -493,14 +493,17 @@
           roundMatches.forEach(function (m) {
             var f1 = m.fighter1 || 'TBD';
             var f2 = m.fighter2 || 'TBD';
-            var winner = (m.winner || '').trim();
+            var storedWinner = (typeof localStorage !== 'undefined' && m.id) ? localStorage.getItem('nhfc_winner_' + m.id) : null;
+            var winner = (storedWinner || (m.winner || '')).trim();
             var winnerDisplay = winner;
             if (winner && roster && roster.length) {
               var we = findInRoster(winner, roster);
               if (we && we.osrs_name) winnerDisplay = we.osrs_name;
             }
             var label = escapeHtml(f1) + ' vs ' + escapeHtml(f2);
-            var winnerLine = winner ? '<p class="text-xs mt-1 match-winner">Winner: ' + escapeHtml(winnerDisplay) + '</p>' : '<p class="text-xs mt-1 text-slate-500">Winner TBD</p>';
+            var winnerLine = winner
+              ? '<p class="text-xs mt-1 text-slate-400">Winner: <span class="text-accent font-semibold">' + escapeHtml(winnerDisplay) + '</span></p>'
+              : '<p class="text-xs mt-1 text-slate-500">Winner TBD</p>';
             var a = document.createElement('a');
             a.href = 'match.html?id=' + encodeURIComponent(m.id || '');
             a.className = 'match-card block rounded-xl bg-surfaceLight border border-blood/40 p-4 text-slate-200 no-underline';

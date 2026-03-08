@@ -92,7 +92,7 @@ content:
           - name: winner
             label: Winner
             type: string
-            description: Set when match is decided; must match fighter1 or fighter2 name
+            description: Set when match is decided; must match fighter1 or fighter2 name. Clear to undo or fix a wrong pick. Match page also has an Undo button for browser-saved selection.
 
   - name: config
     label: Event config
