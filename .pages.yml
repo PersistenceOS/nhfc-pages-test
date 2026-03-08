@@ -36,7 +36,7 @@ content:
             label: Record (W-L-D)
             type: string
           - name: osrs_name
-            label: OSRS in-game name
+            label: In-game name
             type: string
           - name: bio
             label: Bio
