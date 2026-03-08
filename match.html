@@ -256,7 +256,7 @@
         root.innerHTML = '';
         var roundTitle = document.createElement('h1');
         roundTitle.className = 'text-xl font-semibold text-slate-300 mb-8 match-reveal-title';
-        roundTitle.textContent = match.round || 'Match';
+        roundTitle.textContent = (match.round || 'Match') + ' · Best of 3';
         root.appendChild(roundTitle);
 
         var flex = document.createElement('div');
