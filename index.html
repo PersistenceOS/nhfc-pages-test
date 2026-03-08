@@ -446,15 +446,12 @@
         var s = config.series_number != null ? config.series_number : defaultEvent.series_number;
         var r = config.rounds != null ? config.rounds : defaultEvent.rounds;
         var rd = config.round_duration_min != null ? config.round_duration_min : defaultEvent.round_duration_min;
-        var cr = config.championship_rounds != null ? config.championship_rounds : defaultEvent.championship_rounds;
         eventInfoEl.innerHTML =
           '<span><strong class="text-accent">NHFC ' + s + '</strong></span>' +
           '<span class="event-dot"></span>' +
           '<span>' + r + ' Rounds</span>' +
           '<span class="event-dot"></span>' +
-          '<span>' + rd + ' minute rounds</span>' +
-          '<span class="event-dot"></span>' +
-          '<span>Championship: ' + cr + ' Rounds</span>';
+          '<span>' + rd + ' minute rounds</span>';
       }
 
       fetch('config.json')
