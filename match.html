@@ -287,8 +287,8 @@
           resultWrap.appendChild(result);
           var undoBtn = document.createElement('button');
           undoBtn.type = 'button';
-          undoBtn.className = 'text-slate-500 hover:text-accent text-xs font-medium underline focus:outline-none';
-          undoBtn.textContent = 'Undo — clear selection';
+          undoBtn.className = 'btn-next secondary mt-2';
+          undoBtn.textContent = 'Undo — clear winner';
           undoBtn.addEventListener('click', function () {
             try { if (matchIdForStorage) localStorage.removeItem('nhfc_winner_' + matchIdForStorage); } catch (e) {}
             renderMatch(match, roster, matches, matchIdForStorage);
